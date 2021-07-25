@@ -9,6 +9,7 @@ const searchBar = props => {
         <SearchBar
         platform= 'ios'
         containerStyle={{...styles.bar, backgroundColor: '#FFFFFF'}}
+        selectionColor={'#00c806'}
         inputContainerStyle = {{backgroundColor: '#f6f7f9', height: 32, marginLeft: 0}}
         placeholder={'Search companies...'}
         placeholderTextColor={'#97a4b2'}
@@ -20,9 +21,9 @@ const searchBar = props => {
           height: 18,
           marginRight: -4
         }}
-        // cancelButtonProps = {{
-        //   color: context.currentTheme.up
-        // }}
+        cancelButtonProps = {{
+          color: '#00c806'
+        }}
         value={props.query}
         inputStyle={{
           color: '#000',

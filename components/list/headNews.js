@@ -1,7 +1,7 @@
 import React from 'react'
 import { StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-native'
 
-const newsListItem = props => {
+const headNews = props => {
     return (
         <TouchableWithoutFeedback onPress={props.onPress}>
         <View style={styles.container}>
@@ -13,16 +13,15 @@ const newsListItem = props => {
                 <View><Text style={styles.threeDots}>. . .</Text></View>
             </View>
             <View style={styles.middleContainer}>
-                <Text numberOfLines={3} style={styles.newsText}>{props.content}</Text>
+                <Text numberOfLines={2} style={styles.newsText}>{props.content}</Text>
                 <Image style={styles.img} source={{uri: props.uri}}/>
             </View>
-            <Text style={styles.companyText}>{props.company} +{props.percentage}%</Text>
         </View>
         </TouchableWithoutFeedback>
     )
 }
 
-export default newsListItem
+export default headNews
 
 const styles = StyleSheet.create({
     container: {
@@ -38,15 +37,15 @@ const styles = StyleSheet.create({
     titleContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'flex-end',
     },
     sourceContainer: {
         flexDirection: 'row',
         alignItems: 'flex-start',
     },
     middleContainer: {
-        flexDirection: 'row',
-        marginVertical: 20,
+        marginTop: 14,
+        marginBottom: 20,
         justifyContent: 'space-between'
     },  
     srcText: {
@@ -60,21 +59,17 @@ const styles = StyleSheet.create({
     },
     threeDots: {
         fontWeight: '800',
-        fontSize: 18
+        fontSize: 18,
     },
     img: {
-        width: 60,
-        height: 60,
+        width: '100%',
+        height: 220,
         borderRadius: 6
     },
     newsText: {
-        width: '80%',
-        lineHeight: 22,
-        fontSize: 15
+        width: '100%',
+        fontSize: 22,
+        marginBottom: 12,
+        lineHeight: 28
     },
-    companyText: {
-        fontSize: 12,
-        fontWeight: '700',
-        color: '#00c806'
-    }
 })

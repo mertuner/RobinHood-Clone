@@ -1,12 +1,14 @@
 import React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-native'
 
 const trendingListItem = props => {
     return (
+        <TouchableWithoutFeedback onPress={props.onPress}>
         <View style={styles.listItemContainer}>
             <Image style={styles.img} source={props.src}/>
             <Text style={styles.listName}>{props.listName}</Text>
         </View>
+        </TouchableWithoutFeedback>
     )
 }
 

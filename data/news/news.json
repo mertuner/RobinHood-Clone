@@ -1,5 +1,16 @@
 [
     {
+        "datetime": "12h",
+        "headline": "Starbucks Manager Quits Over Woke Culture That Led to Bullying",
+        "source": "CNBC",
+        "url": "https://cloud.iexapis.com/v1/news/article/eZuY5JU0cFmBDwSqx9J7nThDEtFg9THJFbKc3HAQAHn",
+        "summary": "Amanda Wannagat was an exemplary Starbucks store manager. She repeatedly received accolades from the global coffee shop chain for her performance. New store managers would get sent to her store in Salt Lake City to learn how to do the job properly. Despite solid career prospects and reasonable pay that supported her three children, this []",
+        "related": "SBUX",
+        "image": "https://cloud.iexapis.com/v1/news/image/eZuY5JU0cFmBDwSqx9J7nThDEtFg9THJFbKc3HAQAHn",
+        "lang": "en",
+        "hasPaywall": false
+    },
+    {
         "datetime": "1h",
         "headline": "Tesla will open its Superchargers to other EVs this year: Musk",
         "source": "Benzinga",
@@ -73,17 +84,6 @@
         "summary": "SimpleNews AMDs Radeon RX 6600 and RX 6600 XT reportedly launching on August 11 with improved availability Rumor mill: Given the slew of leaks and listings surrounding AMDs Radeon RX 6600 XT and RX 6600 over the last few weeks, all signs point to an imminent launch. Now, a new report claims to have an exact date: August 11. It also states that there will be plenty of the cards in stock, [] The post AMDs Radeon RX 6600 and RX 6600 XT reportedly launching on August 11 with improved availability appeared first on SimpleNews .",
         "related": "AMD",
         "image": "https://cloud.iexapis.com/v1/news/image/ciR4PDIuYzHr0HXdddNIcTYI5AHmdfjkeaNE9zbSaKH",
-        "lang": "en",
-        "hasPaywall": false
-    },
-    {
-        "datetime": "12h",
-        "headline": "Starbucks Manager Quits Over Woke Culture That Led to Bullying",
-        "source": "Reuters",
-        "url": "https://cloud.iexapis.com/v1/news/article/eZuY5JU0cFmBDwSqx9J7nThDEtFg9THJFbKc3HAQAHn",
-        "summary": "Amanda Wannagat was an exemplary Starbucks store manager. She repeatedly received accolades from the global coffee shop chain for her performance. New store managers would get sent to her store in Salt Lake City to learn how to do the job properly. Despite solid career prospects and reasonable pay that supported her three children, this []",
-        "related": "SBUX",
-        "image": "https://cloud.iexapis.com/v1/news/image/eZuY5JU0cFmBDwSqx9J7nThDEtFg9THJFbKc3HAQAHn",
         "lang": "en",
         "hasPaywall": false
     },

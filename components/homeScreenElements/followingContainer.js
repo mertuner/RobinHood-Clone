@@ -36,8 +36,8 @@ const styles = StyleSheet.create({
     },
     followingBox: {
         flexDirection: 'row',
-        marginLeft: '5%',
-        width: '90%',
+        marginLeft: '6%',
+        width: '88%',
         paddingVertical: 20,
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     followingTitleText: {
         fontSize: 24,
         fontWeight: '500',
-        marginLeft: '5%',
+        marginLeft: '6%',
         marginBottom: 6,
         marginTop: 42
     },  

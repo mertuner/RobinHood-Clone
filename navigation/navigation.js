@@ -6,10 +6,9 @@ import HomeScreen, { screenOptions as HomeScreenOptions } from '../screens/homeS
 import Promo, { screenOptions as PromoScreenOptions } from '../screens/homeStack/promo';
 import CashScreen from '../screens/cash';
 import ExploreScreen, { screenOptions as ExploreScreenOptions } from '../screens/explore';
-import ChatScreen from '../screens/chat';
+import ChatScreen, { screenOptions as ChatScreenOptions } from '../screens/chat';
 import { deviceWidth } from '../constants/dimensions';
-
-import ProfileScreen from '../screens/profile';
+import ProfileScreen, { screenOptions as ProfileScreenOptions } from '../screens/profile';
 
 const RootMainStackNavigator = createStackNavigator();
 const HomeStackMainNavigator = createStackNavigator();
@@ -177,8 +176,15 @@ const ExploreNavigator = () => {
 
 const ChatNavigator = () => {
     const defaultNavOptions = {
-        headerTitleStyle: {
-            color: '#000'
+        headerStyle: {
+            backgroundColor: '#fff',
+            shadowRadius: 0,
+            shadowOffset: {
+                height: 0,
+            },
+        },
+        cardStyle: {
+            backgroundColor: '#fff'
         },
     }
 
@@ -187,6 +193,7 @@ const ChatNavigator = () => {
             <ChatStackNavigator.Screen
                 name="Chat"
                 component={ChatScreen}
+                options={ChatScreenOptions}
             />
         </ChatStackNavigator.Navigator>
     )
@@ -195,8 +202,15 @@ const ChatNavigator = () => {
 
 const ProfileNavigator = () => {
     const defaultNavOptions = {
-        headerTitleStyle: {
-            color: '#000'
+        headerStyle: {
+            backgroundColor: '#fff',
+            shadowRadius: 0,
+            shadowOffset: {
+                height: 0,
+            },
+        },
+        cardStyle: {
+            backgroundColor: '#fff'
         },
     }
 
@@ -205,6 +219,7 @@ const ProfileNavigator = () => {
             <ProfileStackNavigator.Screen
                 name="Profile"
                 component={ProfileScreen}
+                options={ProfileScreenOptions}
             />
         </ProfileStackNavigator.Navigator>
     )

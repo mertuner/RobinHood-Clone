@@ -4,10 +4,10 @@ import { StyleSheet, Text, View } from 'react-native'
 const moverListItem = props => {
     return (
         <View style={styles.container}>
-            <Text style={styles.company}>LSB Industries</Text>
+            <Text style={styles.company}>{props.company}</Text>
             <View style={styles.bottomContainer}>
-                <Text style={styles.ticker}>LXU</Text>
-                <Text style={styles.percentage}>+48.55%</Text>
+                <Text style={{...styles.ticker, color: props.color}}>{props.ticker}</Text>
+                <Text style={{...styles.percentage, color: props.color}}>{props.change}%</Text>
             </View>
         </View>
     )
@@ -36,13 +36,11 @@ const styles = StyleSheet.create({
     }, 
     ticker: {
         fontSize: 26,
-        color: '#00c806',
         fontWeight: '400',
         marginBottom: 8
     },
     percentage: {
         fontSize: 12,
-        color: '#00c806',
         fontWeight: '500'
     }
 })

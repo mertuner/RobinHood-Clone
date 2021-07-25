@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
         flexGrow: 1,
     },
     innerContainer: {
-        width: '90%',
+        width: '88%',
         alignItems: 'center',
     },
     headerTitleContainer: {
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 32,
-        fontWeight: "400"
+        fontWeight: "500"
     },
     rewardContainer: {
         flexDirection: 'row',
