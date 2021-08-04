@@ -9,6 +9,8 @@ import ExploreScreen, { screenOptions as ExploreScreenOptions } from '../screens
 import ChatScreen, { screenOptions as ChatScreenOptions } from '../screens/chat';
 import { deviceWidth } from '../constants/dimensions';
 import ProfileScreen, { screenOptions as ProfileScreenOptions } from '../screens/profile';
+import CompanyDetailScreen, { screenOptions as CompanyDetailScreenOptions} from '../screens/companyDetail';
+
 
 const RootMainStackNavigator = createStackNavigator();
 const HomeStackMainNavigator = createStackNavigator();
@@ -17,79 +19,6 @@ const ExploreStackNavigator = createStackNavigator();
 const ChatStackNavigator = createStackNavigator();
 const ProfileStackNavigator = createStackNavigator();
 const BottomNavigator = createBottomTabNavigator();
-
-
-// const HomeStackViewNavigator = () => {
-//     const defaultNavOptions = {
-//         // headerTitleStyle: {
-//         //     color: '#fff'
-//         // },
-//         // headerTransparent: true,
-//         headerStyle: {
-//             backgroundColor: '#fff',
-//             shadowRadius: 0,
-//             shadowOffset: {
-//                 height: 0,
-//             },
-//         },
-//         cardStyle: {
-//             backgroundColor: 'white'
-//         },
-//         // below code to hide title and give screen a full height
-//         // headerShown: false
-//     }
-
-//     return (
-//         <HomeStackNavigator.Navigator screenOptions={defaultNavOptions} mode={'modal'}>
-//             <HomeStackNavigator.Screen
-//                 name="Home"
-//                 component={HomeScreen}
-//                 options={HomeScreenOptions}
-//             />
-//         </HomeStackNavigator.Navigator>
-//     )
-// }
-
-
-// const HomeModalViewNavigator = () => {
-//     const defaultNavOptions = {
-//         headerTitleStyle: {
-//             // color: '#fff',
-//             fontWeight: '300',
-//             fontSize: 15
-//         },
-//         // headerTransparent: true,
-//         headerStyle: {
-//             backgroundColor: '#fff',
-//             shadowRadius: 0,
-//             shadowOffset: {
-//                 height: 0,
-//             },
-//         },
-//         cardStyle: {
-//             backgroundColor: 'white'
-//         },
-//         // below code to hide title and give screen a full height
-//         headerShown: false
-//     }
-
-//     return (
-//         <HomeModalNavigator.Navigator screenOptions={defaultNavOptions} mode={'modal'}>
-//             <HomeModalNavigator.Screen
-//                 name="Home"
-//                 component={HomeStackViewNavigator}
-//                 // options={HomeScreenOptions}
-//             />
-//             {/* <HomeModalNavigator.Screen
-//                 name="Promo"
-//                 component={Promo}
-//                 options={PromoScreenOptions}
-//             /> */}
-//         </HomeModalNavigator.Navigator>
-//     )
-// }
-
-
 
 
 
@@ -119,6 +48,11 @@ const HomeMainNavigator = () => {
                 name="Home"
                 component={HomeScreen}
                 options={HomeScreenOptions}
+            />
+            <HomeStackMainNavigator.Screen
+                name="CompanyDetail"
+                component={CompanyDetailScreen}
+                options={CompanyDetailScreenOptions}
             />
         </HomeStackMainNavigator.Navigator>
     )
@@ -309,10 +243,6 @@ export const RootMainNavigator = () => {
                 component={MainTabNavigator}
                 // options={{ headerShown: false }}
             />
-            {/* <RootMainStackNavigator.Screen
-                name="HomeUser"
-                component={HomeUserNavigator}
-            /> */}
             <RootMainStackNavigator.Screen
                 name="Promo"
                 component={Promo}

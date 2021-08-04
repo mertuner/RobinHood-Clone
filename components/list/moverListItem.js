@@ -17,7 +17,7 @@ export default moverListItem
 
 const styles = StyleSheet.create({
     container: {
-        width: 150,
+        width: 140,
         height: 180,
         borderWidth: 1,
         borderRadius: 6,
@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
         width: '90%',
     }, 
     company: {
-        fontSize: 16,
+        fontSize: 15,
     }, 
     ticker: {
         fontSize: 26,

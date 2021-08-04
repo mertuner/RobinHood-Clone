@@ -106,6 +106,11 @@ const ProfileScreen = props => {
                     )
                 })
             }
+            <View style={styles.accountNoBox}>
+                <Text style={styles.accountNoTitle}>Account No.</Text>
+                <Text style={styles.accountNoText}>(RHS) 111222333</Text>
+            </View>
+            <Text style={styles.logOutText}>Log Out</Text>
         </ScrollView>
     )
 }
@@ -141,6 +146,12 @@ const styles = StyleSheet.create({
         marginTop: 18,
         marginBottom: 6
     },
+    accountNoBox: {
+        width: '88%',
+        justifyContent: 'space-around',
+        alignItems: 'flex-start',
+        paddingVertical: 20,
+    }, 
     title: {
         fontSize: 32,
         fontWeight: "500"
@@ -152,4 +163,21 @@ const styles = StyleSheet.create({
         width: '100%',
         textAlign: 'left'
     },
+    accountNoTitle: {
+        fontSize: 13,
+        fontWeight: '700',
+        color: '#697277',
+    },
+    accountNoText: {
+        color: '#697277',
+        marginTop: 6,
+        fontSize: 13
+    },
+    logOutText: {
+        marginTop: 48,
+        marginBottom: 48,
+        textAlign: 'center',
+        color: '#00c806',
+        fontWeight: '700'
+    }
 })

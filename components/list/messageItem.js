@@ -40,10 +40,10 @@ const styles = StyleSheet.create({
     },
     innerContainer: {
         paddingBottom: 20,
-        borderBottomWidth: 1,
+        borderBottomWidth: 0.5,
         flexShrink: 1,
         width: '100%',
-        borderBottomColor: '#edf0f4',
+        borderBottomColor: 'rgba(237, 240, 244, 0.7)',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',

@@ -220,6 +220,7 @@ const ExploreScreen = props => {
                     </View>
                 </View>
             </ScrollView>
+            <View style={styles.hr}></View>
             {/* <View style={{ height: 1, width: '90%', backgroundColor: '#edf0f4', marginBottom: 24 }}></View> */}
             <View style={{ width: '88%' }}>
                 <HeadNews
@@ -228,6 +229,8 @@ const ExploreScreen = props => {
                     date={newsDataParsed[0].datetime}
                     uri={newsDataParsed[0].image}
                     content={newsDataParsed[0].headline}
+                    percentage={(Math.random() * 10).toFixed(2)}
+                    company={newsDataParsed[0].related}
                 />
                 {newsDataParsed.slice(1, 4).map((item, idx) => {
                     return (
@@ -263,6 +266,7 @@ const ExploreScreen = props => {
                         <NewsListItem
                             key={idx}
                             source={item.source}
+                            onPress={() => handleNewsItemPress(item.url)}
                             date={item.datetime}
                             uri={item.image}
                             percentage={(Math.random() * 10).toFixed(2)}
@@ -335,6 +339,13 @@ const styles = StyleSheet.create({
     },
     listColumn: {
         marginBottom: 16,
-        marginLeft: deviceWidth * 0.065
+        marginLeft: deviceWidth * 0.065,
+    },
+    hr: {
+        borderWidth: 0.5,
+        height: 1,
+        width: '88%',
+        borderColor: 'rgba(237, 240, 244, 0.7)',
+        marginBottom: 16
     }
 })

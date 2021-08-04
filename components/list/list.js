@@ -61,12 +61,12 @@ const styles = StyleSheet.create({
         alignItems: 'flex-start'
     },
     titleContainer: {
-        width: '90%',
+        width: '88%',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 12,
-        marginLeft: '5%'
+        marginLeft: '6%'
     },
     titleLeftContainer: {
         flexDirection: 'row',

@@ -16,6 +16,7 @@ const headNews = props => {
                 <Text numberOfLines={2} style={styles.newsText}>{props.content}</Text>
                 <Image style={styles.img} source={{uri: props.uri}}/>
             </View>
+            <Text style={styles.companyText}>{props.company} +{props.percentage}%</Text>
         </View>
         </TouchableWithoutFeedback>
     )
@@ -26,12 +27,12 @@ export default headNews
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        paddingTop: 18,
+        paddingBottom: 18,
         // paddingTop: 18,
         // borderTopColor: '#edf0f4',
         // borderTopWidth: 1,
-        borderTopWidth: 1,
-        borderTopColor: '#edf0f4',
+        borderBottomWidth: 0.5,
+        borderBottomColor: 'rgba(237, 240, 244, 0.7)',
         marginBottom: 16
     },
     titleContainer: {
@@ -72,4 +73,9 @@ const styles = StyleSheet.create({
         marginBottom: 12,
         lineHeight: 28
     },
+    companyText: {
+        fontSize: 12,
+        fontWeight: '700',
+        color: '#00c806'
+    }
 })

@@ -19,11 +19,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingVertical: 4,
+        paddingVertical: 5,
         paddingLeft: 8,
         paddingRight: 16,
         borderColor: '#edf0f4',
-        borderWidth: 1,
+        borderWidth: 1.2,
         borderRadius: 25,
         marginRight: 6
     },

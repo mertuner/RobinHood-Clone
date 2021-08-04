@@ -129,6 +129,8 @@ const HomeScreen = props => {
         }
     }
 
+
+
     return (
         <ScrollView ref={_scrollViewRef} scrollEnabled={scrollEnabled} contentContainerStyle={styles.container} scrollEventThrottle={16} onScroll={handleScroll}>
             <View style={styles.innerContainer}>
@@ -153,7 +155,7 @@ const HomeScreen = props => {
                     <LineChart
                         style={{ width: '100%', height: '100%', }}
                         data={graphData}
-                        svg={{ stroke: '#00c806', strokeWidth: 2 }}
+                        svg={{ stroke: '#00c806', strokeWidth: 1.7 }}
                         contentInset={{ top: 0, bottom: 0 }}
                         showGrid={false}
                     />
@@ -176,15 +178,16 @@ const HomeScreen = props => {
                     listAmount={cyrptoData.length}
                     listName={'Cryptos to Watch'}
                 >
-                    <ListItem onDragStart={onDragStart} onDragEnd={onDragEnd} data={cyrptoData} parentRef={_scrollViewRef} />
+                    <ListItem  navigation={props.navigation} onDragStart={onDragStart} onDragEnd={onDragEnd} data={cyrptoData}  parentRef={_scrollViewRef} />
                 </List>
                 <List
                     emoji={"⚡️"}
                     listAmount={stockData.length}
                     listName={'My First List'}
                 >
-                    <ListItem onDragStart={onDragStart} onDragEnd={onDragEnd} data={stockData} stock parentRef={_scrollViewRef} />
+                    <ListItem navigation={props.navigation} onDragStart={onDragStart} onDragEnd={onDragEnd} data={stockData} stock parentRef={_scrollViewRef} />
                 </List>
+                
             </View>
             <View style={styles.newListContainer}>
                 <View style={styles.newListBox}>
@@ -229,14 +232,14 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 32,
-        fontWeight: "500"
+        fontWeight: "500",
     },
     rewardContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         paddingHorizontal: 14,
-        backgroundColor: '#EBF9EA',
+        backgroundColor: '#E5F8E3',
         paddingVertical: 8,
         borderRadius: 32
     },
@@ -278,7 +281,8 @@ const styles = StyleSheet.create({
         marginLeft: 2
     },
     changeDollarAmountText: {
-        fontWeight: '500',
+        fontSize: 13,
+        fontWeight: '600',
         color: '#00c806'
     },
     changeTimeText: {
@@ -307,11 +311,11 @@ const styles = StyleSheet.create({
     listTitleText: {
         fontSize: 24,
         fontWeight: '500',
-        marginLeft: '5%',
+        marginLeft: '6%',
         marginBottom: 26
     },
     newListContainer: {
-        width: '90%',
+        width: '88%',
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',

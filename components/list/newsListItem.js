@@ -27,12 +27,12 @@ export default newsListItem
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        paddingTop: 18,
+        paddingBottom: 24,
         // paddingTop: 18,
         // borderTopColor: '#edf0f4',
         // borderTopWidth: 1,
-        borderTopWidth: 1,
-        borderTopColor: '#edf0f4',
+        borderBottomWidth: 0.5,
+        borderBottomColor: 'rgba(237, 240, 244, 0.7)',
         marginBottom: 16
     },
     titleContainer: {

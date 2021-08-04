@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react'
-import { FlatList, StyleSheet, Text, TouchableHighlight, View, TouchableWithoutFeedback } from 'react-native';
+import { FlatList, StyleSheet, Text, TouchableHighlight, View, } from 'react-native';
 import DraggableFlatList from 'react-native-draggable-flatlist';
 import { LineChart } from 'react-native-svg-charts';
 import { deviceWidth } from '../../constants/dimensions';
 import * as Haptics from 'expo-haptics';
+import { stockData } from '../../data/dumb';
 
 
 
@@ -52,12 +53,29 @@ const listItem = props => {
     }
 
 
+    const handleNavigation = (ticker) => {
+        
+        let data = null;
+
+        for(let company of stockData){
+            if(company.ticker === ticker){
+                data = company;
+            }
+        }
+
+        props.navigation.navigate('CompanyDetail', {
+            info: {
+                ...data
+            }
+        })
+    }
+
 
 //#f2f4f9
 
 
     const renderItem = ({ item, index, drag, isActive }) => (
-        <TouchableHighlight onLongPress={drag} underlayColor={!isActive ? '#f2f4f9' : '#fff'}>
+        <TouchableHighlight onLongPress={drag} underlayColor={!isActive ? '#f2f4f9' : '#fff'} onPress={() => handleNavigation(item.ticker)} style={{width: deviceWidth}}>
             <View style={isActive ? {...styles.itemContainer, ...activeItemStyle} : {...styles.itemContainer}}>
                 <View style={isActive ? {...styles.itemInnerContainer, width: '91%'}: {...styles.itemInnerContainer}}>
                     <View style={styles.nameContainer}>
@@ -68,8 +86,8 @@ const listItem = props => {
                         <LineChart
                             style={{ width: '100%', height: '100%', }}
                             data={item.intradayData}
-                            svg={{ stroke: (props.stock && item.up) ? stockUpColor : (props.stock) ? stockDownColor : item.up ? cryptoUpColor : cyrptoDownColor, strokeWidth: 1.5 }}
-                            contentInset={{ top: 0, bottom: 0 }}
+                            svg={{ stroke: (props.stock && item.up) ? stockUpColor : (props.stock) ? stockDownColor : item.up ? cryptoUpColor : cyrptoDownColor, strokeWidth: 1.3 }}
+                            contentInset={{ top: 6, bottom: 6 }}
                             showGrid={false}
                         />
                     </View>
@@ -85,6 +103,7 @@ const listItem = props => {
     return (
             <DraggableFlatList
                 simultaneousHandlers={props.parentRef}
+                scrollEnabled={false}
                 data={data}
                 renderItem={renderItem}
                 keyExtractor={(item, index) => index.toString()}
@@ -104,11 +123,11 @@ const styles = StyleSheet.create({
         paddingVertical: 20,
         justifyContent: 'center',
         alignItems: 'center',
-        borderBottomColor: '#edf0f4',
+        borderBottomColor: 'rgba(237, 240, 244, 0.7)',
         borderBottomWidth: 0.5,
         // backgroundColor: '#fff',
-        width: '90%',
-        marginLeft: '5%',
+        width: '88%',
+        marginLeft: '6%',
     },
     itemInnerContainer: {
         width: '100%',
@@ -125,7 +144,7 @@ const styles = StyleSheet.create({
     },
     graphContainer: {
         height: '100%',
-        width: '25%',
+        width: '24%',
         marginRight: 36
     },
     priceContainer: {

@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     listTitleText: {
         fontSize: 24,
         fontWeight: '500',
-        marginLeft: '5%',
+        marginLeft: '6%',
         marginBottom: 26
     },
 })
