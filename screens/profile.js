@@ -90,7 +90,7 @@ const ProfileScreen = props => {
                     <HeadListItem
                         color={'#00c806'} 
                         src={require('../assets/rb-icons/fb.jpg')}
-                        desc={'See the most popular stocks in Robinhood'}
+                        desc={'See the most popular stocks on Robinhood.'}
                         bottomText={'VIEW LIST'}
                     />
                 </View>

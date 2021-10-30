@@ -109,7 +109,7 @@ const listItem = props => {
                 keyExtractor={(item, index) => index.toString()}
                 onDragEnd={onDragEnd}
                 onDragBegin={onDragStart}
-                onPlaceholderIndexChange={index => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)                }
+                onPlaceholderIndexChange={index => Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light)}
                 dragItemOverflow
                 activationDistance={18}
             />

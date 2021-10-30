@@ -235,14 +235,16 @@ const ExploreScreen = props => {
                 {newsDataParsed.slice(1, 4).map((item, idx) => {
                     return (
                         <NewsListItem
+                            explore
                             key={idx}
                             onPress={() => handleNewsItemPress(item.url)}
                             source={item.source}
                             date={item.datetime}
                             uri={item.image}
-                            percentage={(Math.random() * 10).toFixed(2)}
+                            percentage={'+' + String((Math.random() * 10).toFixed(2))}
                             company={item.related}
                             content={item.headline}
+                            color={'#00c806'}
                         />
                     )
                 })}
@@ -264,14 +266,16 @@ const ExploreScreen = props => {
                 {newsDataParsed.slice(4).map((item, idx) => {
                     return (
                         <NewsListItem
+                            explore
                             key={idx}
                             source={item.source}
                             onPress={() => handleNewsItemPress(item.url)}
                             date={item.datetime}
                             uri={item.image}
-                            percentage={(Math.random() * 10).toFixed(2)}
+                            percentage={'+' + String((Math.random() * 10).toFixed(2))}
                             company={item.related}
                             content={item.headline}
+                            color={'#00c806'}
                         />
                     )
                 })}

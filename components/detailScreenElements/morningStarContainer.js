@@ -1,7 +1,7 @@
 import React from 'react'
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-const morningStarContainer = () => {
+const morningStarContainer = (props) => {
     return (
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.container}>
             <View style={styles.innerContainer}>
@@ -9,30 +9,16 @@ const morningStarContainer = () => {
                     <Text style={styles.title}>Bulls Say</Text>
                     <Text style={styles.morningStar}>Morningstar</Text>
                 </View>
-                <Text numberOfLines={4} style={styles.content}>Between greater smartphone penetration in emerging markets and repeat sales to current
-                customers, Apple has plenty of opportunity to reap the rewards of its iPhone business.
-
-                Apple's iPhone and iOS operating system have consistently been rated at the head of
-                the pack in terms of customer loyalty, engagement, and security, which bodes well for long-term customer retention.
-
-                We think Apple is still innovating with introductions of Apple Pay, Apple Watch,
-            Apple TV, and AirPods; each of these could drive incremental revenue, but more crucially help to retain iPhone users over time.</Text>
-                <Text style={styles.showMore}>Show More</Text>
+                <Text numberOfLines={4} style={styles.content}>{props.bullsSay}</Text>
+                <Text style={{...styles.showMore, color: props.color}}>Show More</Text>
             </View>
             <View style={styles.innerContainer}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.title}>Bulls Say</Text>
+                    <Text style={styles.title}>Bears Say</Text>
                     <Text style={styles.morningStar}>Morningstar</Text>
                 </View>
-                <Text numberOfLines={4} style={styles.content}>Between greater smartphone penetration in emerging markets and repeat sales to current
-                customers, Apple has plenty of opportunity to reap the rewards of its iPhone business.
-
-                Apple's iPhone and iOS operating system have consistently been rated at the head of
-                the pack in terms of customer loyalty, engagement, and security, which bodes well for long-term customer retention.
-
-                We think Apple is still innovating with introductions of Apple Pay, Apple Watch,
-            Apple TV, and AirPods; each of these could drive incremental revenue, but more crucially help to retain iPhone users over time.</Text>
-                <Text style={styles.showMore}>Show More</Text>
+                <Text numberOfLines={4} style={styles.content}>{props.bearsSay}</Text>
+                <Text style={{...styles.showMore, color: props.color}}>Show More</Text>
             </View>
         </ScrollView>
     )
@@ -74,7 +60,7 @@ const styles = StyleSheet.create({
     },
     title: {
         // fontSize: 16,
-        fontWeight: '600'
+        fontWeight: '700'
     },
     morningStar: {
         fontSize: 13,
@@ -86,8 +72,7 @@ const styles = StyleSheet.create({
         fontSize: 15
     },
     showMore: {
-        fontSize: 12,
-        fontWeight: '500',
-        color: '#00c806'
+        fontSize: 13,
+        fontWeight: '600',
     }
 })

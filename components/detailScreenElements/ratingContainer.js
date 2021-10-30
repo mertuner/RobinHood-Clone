@@ -1,49 +1,48 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
-const ratingContainer = () => {
+const ratingContainer = props => {
 
-    const calculateWidth = (ratingNumber, analystNumber) => {
-        const fullWidth = 100;
-        return String((ratingNumber * fullWidth) / analystNumber) + '%'
+    const calculateWidth = (ratingNumber) => {
+        return String(ratingNumber) + '%'
     }
 
 
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>44 Analyst Ratings</Text>
+            <Text style={styles.title}>{props.number} Analyst Ratings</Text>
             <View style={styles.innerContainer}>
-                <View style={styles.recCircle}>
-                    <View style={styles.recCircleTextContainer}> 
-                    <Text style={styles.recText}>75</Text>
-                    <Text style={styles.recTextPerc}>%</Text>
+                <View style={{ ...styles.recCircle, backgroundColor: props.bgColor }}>
+                    <View style={styles.recCircleTextContainer}>
+                        <Text style={{ ...styles.recText, color: props.color }}>{props.buy}</Text>
+                        <Text style={{ ...styles.recTextPerc, color: props.color }}>%</Text>
                     </View>
                 </View>
                 <View style={styles.innerBarContainer}>
                     <View style={styles.barContainer}>
                         <View style={styles.bar}>
-                            <View style={{height: '100%', width: calculateWidth(36, 44), backgroundColor: '#00c806'}}> 
+                            <View style={{ height: '100%', borderTopLeftRadius: 2, borderBottomLeftRadius: 2, width: calculateWidth(props.buy), backgroundColor: props.color }}>
 
                             </View>
                         </View>
-                        <Text style={styles.barText}>75% Buy</Text>
+                        <Text style={styles.barText}>{props.buy}% Buy</Text>
                     </View>
                     <View style={styles.barContainer}>
                         <View style={styles.bar}>
-                        <View style={{height: '100%', width: calculateWidth(6, 44), backgroundColor: '#000'}}> 
+                            <View style={{ height: '100%', borderTopLeftRadius: 2, borderBottomLeftRadius: 2,  width: calculateWidth(props.hold), backgroundColor: '#000' }}>
 
-</View>
+                            </View>
                         </View>
-                        <Text style={styles.barText}>18% Hold</Text>
+                        <Text style={styles.barText}>{props.hold}% Hold</Text>
                     </View>
                     <View style={styles.barContainer}>
                         <View style={styles.bar}>
-                        <View style={{height: '100%', width: calculateWidth(2, 44), backgroundColor: '#000'}}> 
+                            <View style={{ height: '100%', borderTopLeftRadius: 2, borderBottomLeftRadius: 2,  width: calculateWidth(props.sell), backgroundColor: '#000' }}>
 
-</View>
+                            </View>
                         </View>
-                        <Text style={styles.barText}>7% Sell</Text>
+                        <Text style={styles.barText}>{props.sell}% Sell</Text>
                     </View>
                 </View>
             </View>
@@ -69,7 +68,6 @@ const styles = StyleSheet.create({
         width: 85,
         height: 85,
         borderRadius: 50,
-        backgroundColor: '#E5F8E3',
         justifyContent: 'center',
         alignItems: 'center',
         marginRight: 24
@@ -79,6 +77,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         width: '100%',
+        borderRadius: 4
     },
     innerBarContainer: {
         height: 75,
@@ -94,7 +93,8 @@ const styles = StyleSheet.create({
     },
     bar: {
         height: 8,
-        borderRadius: 2,
+        borderBottomRightRadius: 2,
+        borderTopLeftRadius: 2,
         flex: 2.5,
         marginRight: 8,
         backgroundColor: '#ebeff4',
@@ -103,16 +103,14 @@ const styles = StyleSheet.create({
     recCircleTextContainer: {
         alignItems: 'center',
         flexDirection: 'row'
-    },  
+    },
     recText: {
         fontSize: 32,
-        color: '#00c806',
         fontWeight: '500',
         marginLeft: 6
     },
     recTextPerc: {
         fontSize: 16,
-        color: '#00c806',
         fontWeight: '500'
     },
     barText: {

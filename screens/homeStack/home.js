@@ -51,6 +51,10 @@ const HomeScreen = props => {
     }
 
 
+    const onNewsItemMove = (bool) => {
+        setScrollEnabled(bool)
+    }
+
     const openRewardModal = () => {
         props.navigation.navigate('Promo');
     }
@@ -129,7 +133,11 @@ const HomeScreen = props => {
         }
     }
 
+    const goToBP = () => {
+        props.navigation.navigate('BuyingPower');
+    }
 
+    // console.log(scrollEnabled)
 
     return (
         <ScrollView ref={_scrollViewRef} scrollEnabled={scrollEnabled} contentContainerStyle={styles.container} scrollEventThrottle={16} onScroll={handleScroll}>
@@ -151,6 +159,13 @@ const HomeScreen = props => {
                         <Text style={styles.changeTimeText}>{periodData.title}</Text>
                     </View>
                 </View>
+                <View style={styles.ahChangeamountContainer}>
+                    <Entypo name={'triangle-down'} size={24} color={'#FF5000'} />
+                    <View style={styles.changeAmountTextContainer}>
+                        <Text style={styles.ahChangeDollarAmountText}>$24.1800</Text>
+                        <Text style={styles.changeTimeText}>After-Hours</Text>
+                    </View>
+                </View>
                 <View style={styles.graphContainer}>
                     <LineChart
                         style={{ width: '100%', height: '100%', }}
@@ -160,16 +175,20 @@ const HomeScreen = props => {
                         showGrid={false}
                     />
                 </View>
-                <DateBar setChartData={setChartData}/>
+                <DateBar setChartData={setChartData} color={'#00c806'} />
                 <View style={styles.graphBottomBorder}></View>
-                <View style={styles.bpContainer}>
-                    <Text>Buying Power</Text>
-                    <View style={styles.bpAmountContainer}>
-                        <Text style={styles.bpAmountText}>$782.24</Text>
-                        <Feather name="chevron-right" size={20} color={'#97a4b2'} style={{ marginRight: -8 }} />
+                <TouchableWithoutFeedback onPress={goToBP}>
+                    <View style={styles.bpContainer}>
+                        <Text>Buying Power</Text>
+                        <View style={styles.bpAmountContainer}>
+                            <Text style={styles.bpAmountText}>$782.24</Text>
+                            <Feather name="chevron-right" size={20} color={'#97a4b2'} style={{ marginRight: -8 }} />
+                        </View>
                     </View>
-                </View>
-                <HomeScreenNews />
+                </TouchableWithoutFeedback>
+                <HomeScreenNews
+                    handleParentScroll={onNewsItemMove}
+                />
             </View>
             <View style={styles.listViewContainer}>
                 <Text style={styles.listTitleText}>Lists</Text>
@@ -178,7 +197,7 @@ const HomeScreen = props => {
                     listAmount={cyrptoData.length}
                     listName={'Cryptos to Watch'}
                 >
-                    <ListItem  navigation={props.navigation} onDragStart={onDragStart} onDragEnd={onDragEnd} data={cyrptoData}  parentRef={_scrollViewRef} />
+                    <ListItem navigation={props.navigation} onDragStart={onDragStart} onDragEnd={onDragEnd} data={cyrptoData} parentRef={_scrollViewRef} />
                 </List>
                 <List
                     emoji={"⚡️"}
@@ -187,7 +206,7 @@ const HomeScreen = props => {
                 >
                     <ListItem navigation={props.navigation} onDragStart={onDragStart} onDragEnd={onDragEnd} data={stockData} stock parentRef={_scrollViewRef} />
                 </List>
-                
+
             </View>
             <View style={styles.newListContainer}>
                 <View style={styles.newListBox}>
@@ -288,6 +307,16 @@ const styles = StyleSheet.create({
     changeTimeText: {
         fontSize: 13,
         marginLeft: 4
+    },
+    ahChangeamountContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    ahChangeDollarAmountText: {
+        fontSize: 13,
+        fontWeight: '600',
+        color: '#FF5000'
     },
     bpContainer: {
         width: '100%',

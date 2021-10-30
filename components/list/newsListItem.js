@@ -10,13 +10,13 @@ const newsListItem = props => {
                     <Text style={styles.srcText}>{props.source}</Text>
                     <Text style={styles.srcDate}>{props.date}</Text>
                 </View>
-                <View><Text style={styles.threeDots}>. . .</Text></View>
+                {props.explore ? <View><Text style={styles.threeDots}>. . .</Text></View> : null}
             </View>
             <View style={styles.middleContainer}>
                 <Text numberOfLines={3} style={styles.newsText}>{props.content}</Text>
                 <Image style={styles.img} source={{uri: props.uri}}/>
             </View>
-            <Text style={styles.companyText}>{props.company} +{props.percentage}%</Text>
+            <Text style={{...styles.companyText, color: props.color}}>{props.company} {props.percentage}%</Text>
         </View>
         </TouchableWithoutFeedback>
     )
@@ -75,6 +75,5 @@ const styles = StyleSheet.create({
     companyText: {
         fontSize: 12,
         fontWeight: '700',
-        color: '#00c806'
     }
 })

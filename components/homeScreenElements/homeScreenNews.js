@@ -1,32 +1,192 @@
-import React from 'react'
-import { StyleSheet, Text, View } from 'react-native';
-import {deviceWidth} from '../../constants/dimensions';
+import React, { useRef, useEffect, useState } from 'react'
+import { StyleSheet, Text, View, Animated, Easing, PanResponder } from 'react-native';
+import { deviceHeight, deviceWidth } from '../../constants/dimensions';
 import { FontAwesome5, Feather } from '@expo/vector-icons';
+import * as Animatable from 'react-native-animatable';
 
 
-const homeScreenNews = () => {
+
+const homeScreenNews = props => {
+
+    const _viewRef = useRef();
+
+    const pan = useRef(new Animated.ValueXY()).current;
+    const [news, setNews] = useState(['news1', 'news2', 'news3', 'news4', 'news5', 'news6']);
+    const [prevNewsState, setPrevNewsState] = useState([...news]);
+
+    const [currentPan, setCurrentPan] = useState(news[0])
+
+    const [currentAnimateable, setCurrentAnimatable] = useState(news[1]);
+
+
+    const normalizePanX = (position) => {
+        return {
+            scale: (Math.abs(position) / deviceWidth) * 0.2,
+            opacity: (Math.abs(position) / deviceWidth)
+        }
+
+    }
+
+
+
+    const setAnimState = async () => {
+        console.log('calling setA');
+        // await resolveAnim();
+        setPrevNewsState([...news]);
+        news.shift();
+        setNews(news)
+        setCurrentPan(news[0]);
+        setCurrentAnimatable(news[1]);
+    }
+
+    const panResponder = useRef(
+        PanResponder.create({
+            onStartShouldSetPanResponder: (evt, gestureState) => false,
+            onStartShouldSetPanResponderCapture: (evt, gestureState) => false,
+            onMoveShouldSetPanResponder: (evt, gestureState) => Math.abs(gestureState.dx) > 25,
+            onMoveShouldSetPanResponderCapture: (evt, gestureState) => Math.abs(gestureState.dx) > 25,
+            onPanResponderGrant: () => {
+                console.log('responder granted')
+                setPrevNewsState([...news]);
+                pan.setValue({
+                    x: 0,
+                    y: 0
+                });
+                pan.setOffset({
+                    x: pan.x._value,
+                });
+                props.handleParentScroll(true);
+            },
+            onPanResponderMove: Animated.event(
+                [
+                    null,
+                    { dx: pan.x },
+                ],
+                {
+                    useNativeDriver: false,
+                    listener: (event, gestureState) => {
+                        props.handleParentScroll(false);
+                        _viewRef.current.transitionTo({ scale: normalizePanX(pan.x._value).scale + 0.80, opacity: normalizePanX(pan.x._value).opacity })
+                    }, // Optional async listener
+                }
+            ),
+            onPanResponderRelease: (evt, gestureState) => {
+                props.handleParentScroll(true);
+                console.log(gestureState)
+                // Actual device vx is about 0.25 || simulator about 6
+                if (Math.abs(gestureState.vx) > 0.3) {
+                    console.log('if');
+                    pan.flattenOffset();
+                    // pan.setValue({
+                    //     x:  -deviceWidth - 10,
+                    //     y: 0
+                    // });
+                    Animated.parallel([
+                        Animated.timing(pan.x, {
+                            toValue: -deviceWidth - 10,
+                            duration: 400,
+                            useNativeDriver: false,
+                        }
+                        ).start(setAnimState),
+                    ])
+                    pan.addListener(() => _viewRef.current.transitionTo({ scale: normalizePanX(pan.x._value).scale + 0.80, opacity: normalizePanX(pan.x._value).opacity}))
+                    // setPrevNewsState([...news]);
+                    // news.shift();
+                    // setNews(news)
+                    // setCurrentPan(news[0]);
+                    // setCurrentAnimatable(news[1]);
+                }
+                else if (Math.abs(pan.x._value) > deviceWidth * 0.3) {
+                    console.log('else if')
+                    pan.flattenOffset();
+                    Animated.timing(pan.x, {
+                        toValue: -deviceWidth - 10,
+                        duration: 400,
+                        useNativeDriver: false
+                    }).start(setAnimState);
+                    pan.addListener(() => _viewRef.current.transitionTo({ scale: normalizePanX(pan.x._value).scale + 0.80, opacity: normalizePanX(pan.x._value).opacity}))
+                }
+                else if (Math.abs(pan.x._value) <= deviceWidth / 3) {
+                    console.log('else')
+                    pan.flattenOffset();
+                    Animated.spring(pan.x, {
+                        toValue: 0,
+                        bounciness: 15,
+                        useNativeDriver: false
+                    }).start();
+                }
+            },
+            //Todo pan lagging at certain point. 
+            onPanResponderTerminationRequest: (evt, gestureState) => console.log('bonprrtttt'),
+            onPanResponderTerminate: (evt, gestureState) => console.log('bonprrttttassasa')
+        })
+    ).current;
+
+//TODO animation onto bothside
+
     return (
         <View style={styles.container}>
-            <View style={styles.innerContainer}>
-                <View style={styles.contentContainer}>
-                <View style={styles.titleContainer}>
-                    <FontAwesome5 name={"book-reader"} size={14} color={'#97a4b2'}/>
-                    <Text style={styles.newsSource}>Benzinga</Text>
-                    <Text style={styles.dateText}>16h</Text>
-                </View>
-                <View style={styles.headLineContainer}>
-                <Text style={styles.headLineText}>Unusual Options Activity Insight: General Electric</Text>
-                </View>
-                <View>
-                <View style={styles.viewMoreContainer}>
-                <Text style={styles.viewMoreText}>View Article</Text>
-                <Feather name="chevron-right" size={20} color={'#00c806'} style={{marginRight: -8}}/>
-                                    
-                </View>
-                </View>
-            </View>
-            </View>
+            {news.map((item, idx) => {
+                if (idx === 0) {
+                    // console.log('map', item, prevNewsState[0], pan.x);
+                    // console.log('prev ',prevNewsState[0]);
 
+                    return (
+                        <Animated.View
+                            key={idx}
+                            style={{
+                                ...styles.innerContainer,
+                                transform: [{ translateX: prevNewsState[0] === item ? pan.x : 0 }]
+                            }}
+                            {...panResponder.panHandlers}
+                        >
+                            <View style={styles.contentContainer}>
+                                <View style={styles.titleContainer}>
+                                    <FontAwesome5 name={"book-reader"} size={14} color={'#97a4b2'} />
+                                    <Text style={styles.newsSource}>Benzinga</Text>
+                                    <Text style={styles.dateText}>16h</Text>
+                                </View>
+                                <View style={styles.headLineContainer}>
+                                    {/* <Text style={styles.headLineText}>Unusual Options Activity Insight: General Electric</Text> */}
+                                    <Text style={styles.headLineText}>{item}</Text>
+
+                                </View>
+                                <View>
+                                    <View style={styles.viewMoreContainer}>
+                                        <Text style={styles.viewMoreText}>View Article</Text>
+                                        <Feather name="chevron-right" size={20} color={'#00c806'} style={{ marginRight: -8 }} />
+                                    </View>
+                                </View>
+                            </View>
+                        </Animated.View>
+                    )
+                }
+            })}
+            {news.map((item, idx) => {
+                if (idx === 1) {
+                    // console.log('animatable ', item)
+                    return (
+                        <Animatable.View ref={_viewRef} style={styles.animatableContainer} key={idx}>
+                            <View style={styles.contentContainer}>
+                                <View style={styles.titleContainer}>
+                                    <FontAwesome5 name={"book-reader"} size={14} color={'#97a4b2'} />
+                                    <Text style={styles.newsSource}>Benzinga</Text>
+                                    <Text style={styles.dateText}>16h</Text>
+                                </View>
+                                <View style={styles.headLineContainer}>
+                                    <Text style={styles.headLineText}>{item}</Text>
+                                </View>
+                                <View>
+                                    <View style={styles.viewMoreContainer}>
+                                        <Text style={styles.viewMoreText}>View Article</Text>
+                                        <Feather name="chevron-right" size={20} color={'#00c806'} style={{ marginRight: -8 }} />
+                                    </View>
+                                </View>
+                            </View>
+                        </Animatable.View>
+                    )
+                }
+            })}
         </View>
     )
 }
@@ -38,10 +198,26 @@ const styles = StyleSheet.create({
         width: deviceWidth,
         backgroundColor: '#ebeff4',
         alignItems: 'center',
-        justifyContent: 'flex-start'
+        justifyContent: 'center',
+    },
+    box: {
+        height: 150,
+        width: 150,
+        backgroundColor: "blue",
+        borderRadius: 5
     },
     innerContainer: {
-        width: '97%',
+        width: deviceWidth * 0.97,
+        height: 195,
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderRadius: 4,
+        marginVertical: 6
+    },
+    animatableContainer: {
+        zIndex: -1,
+        position: 'absolute',
+        width: deviceWidth * 0.97,
         height: 195,
         alignItems: 'center',
         backgroundColor: '#fff',
@@ -51,10 +227,10 @@ const styles = StyleSheet.create({
     contentContainer: {
         height: '100%',
         paddingVertical: '4%',
-        width: '90%',
+        width: '88%',
         alignItems: 'flex-start',
         justifyContent: 'space-between'
-    },  
+    },
     viewMoreContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -68,9 +244,9 @@ const styles = StyleSheet.create({
     headLineContainer: {
         flex: 1,
         marginTop: 12,
-        width: '80%'
+        width: '90%'
 
-    },  
+    },
     newsSource: {
         fontWeight: '600',
         marginHorizontal: 8,
@@ -80,11 +256,12 @@ const styles = StyleSheet.create({
         color: '#97a4b2'
     },
     headLineText: {
-        fontSize: 16,
-        lineHeight: 24,
+        fontSize: 17,
+        lineHeight: 26,
     },
     viewMoreText: {
         color: '#00c806',
-        fontSize: 13
+        fontSize: 13,
+        fontWeight: '600'
     }
 })

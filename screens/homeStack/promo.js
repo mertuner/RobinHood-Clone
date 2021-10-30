@@ -49,6 +49,7 @@ const promo = props => {
                     iconSet={Ionicons}
                     iconName={'close-outline'}
                     onPress={closeModal}
+                    iconSize={32}
                     color={'#00c806'}
                 />
             </HeaderButtons>,

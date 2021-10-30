@@ -6,7 +6,7 @@ const CustomHeaderButton = props => {
     <HeaderButton
       {...props}
       IconComponent={props.iconSet}
-      iconSize={32}
+      iconSize={props.iconSize}
       buttonStyle={{marginRight: props.marginRight, marginLeft: props.marginLeft}}
     />
   );

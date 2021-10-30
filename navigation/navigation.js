@@ -10,6 +10,7 @@ import ChatScreen, { screenOptions as ChatScreenOptions } from '../screens/chat'
 import { deviceWidth } from '../constants/dimensions';
 import ProfileScreen, { screenOptions as ProfileScreenOptions } from '../screens/profile';
 import CompanyDetailScreen, { screenOptions as CompanyDetailScreenOptions} from '../screens/companyDetail';
+import BuyingPowerScreen, { screenOptions as BuyingPowerScreenOptions} from '../screens/buyingPower';
 
 
 const RootMainStackNavigator = createStackNavigator();
@@ -53,6 +54,11 @@ const HomeMainNavigator = () => {
                 name="CompanyDetail"
                 component={CompanyDetailScreen}
                 options={CompanyDetailScreenOptions}
+            />
+            <HomeStackMainNavigator.Screen
+                name="BuyingPower"
+                component={BuyingPowerScreen}
+                options={BuyingPowerScreenOptions}
             />
         </HomeStackMainNavigator.Navigator>
     )

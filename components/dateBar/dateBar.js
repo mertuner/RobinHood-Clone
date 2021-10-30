@@ -31,8 +31,8 @@ const DateBar = React.memo(props => {
     const chartViews = chartPeriods.map((el, i) => {
         return (
             <TouchableWithoutFeedback key={i} onPress={() => timePeriodsHandler(el)}>
-                <View style={{backgroundColor: selectedPeriod === el ? '#00c806' : '#fff', ...styles.chartPeriod }}>
-                    <Text style={{color: selectedPeriod === el ? '#fff' : '#00c806', ...styles.chartPeriodText } }>{el}</Text>
+                <View style={{backgroundColor: selectedPeriod === el ? props.color : '#fff', ...styles.chartPeriod }}>
+                    <Text style={{color: selectedPeriod === el ? '#fff' : props.color, ...styles.chartPeriodText } }>{el}</Text>
                 </View>
             </TouchableWithoutFeedback>
         )
