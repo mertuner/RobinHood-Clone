@@ -1,6 +1,6 @@
 # RobinHood-Clone
 
-This project is only to for educational purposes. 📚
+This project is only for educational purposes. 📚
 
 There are a lot of features and screens missing. Feel free to improve it.
 
