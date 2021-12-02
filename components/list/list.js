@@ -47,7 +47,6 @@ export default list
 const styles = StyleSheet.create({
     container: {
         width: '100%',
-        // marginBottom: 8,
         flex: 1,
         alignItems: 'flex-start',
         marginVertical: 0,

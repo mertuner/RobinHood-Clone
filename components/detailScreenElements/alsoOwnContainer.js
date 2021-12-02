@@ -5,7 +5,7 @@ import { deviceWidth } from '../../constants/dimensions'
 const alsoOwnContainer = () => {
 
     const handlePress = () => {
-        console.log('presss');
+        return
 
     }
 

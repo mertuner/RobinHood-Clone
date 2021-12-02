@@ -152,9 +152,9 @@ const styles = StyleSheet.create({
     },
     footer: {
         width: deviceWidth,
-        height: 84,
         justifyContent: 'flex-start',
         alignItems: 'center',
+        paddingBottom: 20
     },
     button: {
         width: '90%',

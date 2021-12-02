@@ -67,7 +67,6 @@ export const ThemeContext = React.createContext(
       const [theme, setTheme] = useState(themes.light);
      
       const toggleHandler = theme => {
-        //   console.log(theme, 'thh');
           setTheme(theme === 'dark' ? themes.dark : themes.light );
       }
       return (

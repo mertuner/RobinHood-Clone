@@ -28,9 +28,6 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         paddingBottom: 18,
-        // paddingTop: 18,
-        // borderTopColor: '#edf0f4',
-        // borderTopWidth: 1,
         borderBottomWidth: 0.5,
         borderBottomColor: 'rgba(237, 240, 244, 0.7)',
         marginBottom: 16

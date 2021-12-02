@@ -11,7 +11,6 @@ const aboutContainer = (props) => {
         setIsCollapsed(!isCollapsed);
     }
 
-    console.log(isCollapsed)
 
     return (
         <View style={styles.container}>

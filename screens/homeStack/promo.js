@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, ScrollView, Image, TouchableWithoutFeedback, Sh
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../../components/UI/headerButton/headerButton';
 import { Ionicons } from '@expo/vector-icons';
-import { deviceWidth } from '../../constants/dimensions';
+import { deviceHeight, deviceWidth } from '../../constants/dimensions';
 import * as WebBrowser from 'expo-web-browser';
 
 
@@ -124,18 +124,17 @@ export const screenOptions = navData => {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
         backgroundColor: '#fff',
         width: '100%',
         alignItems: 'center',
         justifyContent: 'flex-start',
-        flex: 1
+        flex: 1,
     },
     scrollViewContainer: {
         width: deviceWidth,
         justifyContent: 'flex-start',
         alignItems: 'center',
-        flexGrow: 1
+        flexGrow: 1,
     },
     topInnerContainer: {
         width: '90%',
@@ -144,7 +143,6 @@ const styles = StyleSheet.create({
     },
     innerContainer: {
         width: '100%',
-        // flex: 1,
     },
     title: {
         fontSize: 17,

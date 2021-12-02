@@ -4,16 +4,16 @@ import { StyleSheet, Text, View, Image, TouchableWithoutFeedback } from 'react-n
 const newsListItem = props => {
     return (
         <TouchableWithoutFeedback onPress={props.onPress}>
-        <View style={styles.container}>
+        <View style={{...styles.container, borderBottomColor: props.borderBottomColor }}>
             <View style={styles.titleContainer}>
                 <View style={styles.sourceContainer}>
-                    <Text style={styles.srcText}>{props.source}</Text>
-                    <Text style={styles.srcDate}>{props.date}</Text>
+                    <Text style={{...styles.srcText, color: props.textColor}}>{props.source}</Text>
+                    <Text style={{...styles.srcDate, color: props.textColor}}>{props.date}</Text>
                 </View>
                 {props.explore ? <View><Text style={styles.threeDots}>. . .</Text></View> : null}
             </View>
             <View style={styles.middleContainer}>
-                <Text numberOfLines={3} style={styles.newsText}>{props.content}</Text>
+                <Text numberOfLines={3} style={{...styles.newsText, color: props.textColor}}>{props.content}</Text>
                 <Image style={styles.img} source={{uri: props.uri}}/>
             </View>
             <Text style={{...styles.companyText, color: props.color}}>{props.company} {props.percentage}%</Text>
@@ -28,9 +28,6 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         paddingBottom: 24,
-        // paddingTop: 18,
-        // borderTopColor: '#edf0f4',
-        // borderTopWidth: 1,
         borderBottomWidth: 0.5,
         borderBottomColor: 'rgba(237, 240, 244, 0.7)',
         marginBottom: 16

@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, Text, View } from 'react-native';
-import { stockData, cyrptoData } from '../../data/dumb';
+import { stockData, cryptoData } from '../../data/dumb';
 import List from '../../components/list/list';
 import ListItem from '../../components/list/listItem';
 
@@ -22,10 +22,10 @@ const lists = props => {
         <Text style={styles.listTitleText}>Lists</Text>
         <List
             emoji={"👾"}
-            listAmount={cyrptoData.length}
+            listAmount={cryptoData.length}
             listName={'Cryptos to Watch'}
         >
-            <ListItem onDragStart={onDragStart} onDragEnd={onDragEnd} data={cyrptoData} parentRef={props.parentRef} />
+            <ListItem onDragStart={onDragStart} onDragEnd={onDragEnd} data={cryptoData} parentRef={props.parentRef} />
         </List>
         <List
             emoji={"⚡️"}

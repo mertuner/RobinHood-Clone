@@ -6,15 +6,23 @@ import * as Animatable from 'react-native-animatable';
 
 
 
+
 const homeScreenNews = props => {
+
 
     const _viewRef = useRef();
 
     const pan = useRef(new Animated.ValueXY()).current;
-    const [news, setNews] = useState(['news1', 'news2', 'news3', 'news4', 'news5', 'news6']);
+    const [news, setNews] = useState(['Facebook digital wallet exec David Marcus to leave company',
+    "Apple's Stock Continues To Push Higher After Breaking Out - Apple", 
+    'Nasdaq Partners With Amazon to Move Market Trading to the Cloud Next Year', 
+    "Good Doge! Crypto fans naming their dogs 'Doge' and cats 'Bitcoin' and 'Elon", 
+    'Microsoft CEO Satya Nadella sells more than $285 million in Microsoft stock', 
+    "Factbox - Who is Twitter's new CEO Parag Agrawal"]);
+    
     const [prevNewsState, setPrevNewsState] = useState([...news]);
 
-    const [currentPan, setCurrentPan] = useState(news[0])
+    const [currentPan, setCurrentPan] = useState(null)
 
     const [currentAnimateable, setCurrentAnimatable] = useState(news[1]);
 
@@ -28,16 +36,17 @@ const homeScreenNews = props => {
     }
 
 
-
     const setAnimState = async () => {
-        console.log('calling setA');
-        // await resolveAnim();
         setPrevNewsState([...news]);
-        news.shift();
-        setNews(news)
+        let removedElement = news.shift();
+        news.push(removedElement);
+        setNews(news);
         setCurrentPan(news[0]);
         setCurrentAnimatable(news[1]);
     }
+
+
+
 
     const panResponder = useRef(
         PanResponder.create({
@@ -46,7 +55,6 @@ const homeScreenNews = props => {
             onMoveShouldSetPanResponder: (evt, gestureState) => Math.abs(gestureState.dx) > 25,
             onMoveShouldSetPanResponderCapture: (evt, gestureState) => Math.abs(gestureState.dx) > 25,
             onPanResponderGrant: () => {
-                console.log('responder granted')
                 setPrevNewsState([...news]);
                 pan.setValue({
                     x: 0,
@@ -72,15 +80,8 @@ const homeScreenNews = props => {
             ),
             onPanResponderRelease: (evt, gestureState) => {
                 props.handleParentScroll(true);
-                console.log(gestureState)
-                // Actual device vx is about 0.25 || simulator about 6
-                if (Math.abs(gestureState.vx) > 0.3) {
-                    console.log('if');
+                if ((Math.abs(gestureState.vx) > 0.3) && (Math.abs(gestureState.dx < 0))) {
                     pan.flattenOffset();
-                    // pan.setValue({
-                    //     x:  -deviceWidth - 10,
-                    //     y: 0
-                    // });
                     Animated.parallel([
                         Animated.timing(pan.x, {
                             toValue: -deviceWidth - 10,
@@ -90,14 +91,20 @@ const homeScreenNews = props => {
                         ).start(setAnimState),
                     ])
                     pan.addListener(() => _viewRef.current.transitionTo({ scale: normalizePanX(pan.x._value).scale + 0.80, opacity: normalizePanX(pan.x._value).opacity}))
-                    // setPrevNewsState([...news]);
-                    // news.shift();
-                    // setNews(news)
-                    // setCurrentPan(news[0]);
-                    // setCurrentAnimatable(news[1]);
+                }
+                else if ((Math.abs(gestureState.vx) > 0.3) && (Math.abs(gestureState.dx > 0))) {
+                    pan.flattenOffset();
+                    Animated.parallel([
+                        Animated.timing(pan.x, {
+                            toValue: deviceWidth + 10,
+                            duration: 400,
+                            useNativeDriver: false,
+                        }
+                        ).start(setAnimState),
+                    ])
+                    pan.addListener(() => _viewRef.current.transitionTo({ scale: normalizePanX(pan.x._value).scale + 0.80, opacity: normalizePanX(pan.x._value).opacity}))
                 }
                 else if (Math.abs(pan.x._value) > deviceWidth * 0.3) {
-                    console.log('else if')
                     pan.flattenOffset();
                     Animated.timing(pan.x, {
                         toValue: -deviceWidth - 10,
@@ -107,7 +114,6 @@ const homeScreenNews = props => {
                     pan.addListener(() => _viewRef.current.transitionTo({ scale: normalizePanX(pan.x._value).scale + 0.80, opacity: normalizePanX(pan.x._value).opacity}))
                 }
                 else if (Math.abs(pan.x._value) <= deviceWidth / 3) {
-                    console.log('else')
                     pan.flattenOffset();
                     Animated.spring(pan.x, {
                         toValue: 0,
@@ -116,21 +122,17 @@ const homeScreenNews = props => {
                     }).start();
                 }
             },
-            //Todo pan lagging at certain point. 
-            onPanResponderTerminationRequest: (evt, gestureState) => console.log('bonprrtttt'),
-            onPanResponderTerminate: (evt, gestureState) => console.log('bonprrttttassasa')
+            //TODO pan lagging at certain point. 
+            onPanResponderTerminationRequest: (evt, gestureState) => console.log('oprtr'),
+            onPanResponderTerminate: (evt, gestureState) => console.log('oprt')
         })
     ).current;
 
-//TODO animation onto bothside
 
     return (
         <View style={styles.container}>
             {news.map((item, idx) => {
                 if (idx === 0) {
-                    // console.log('map', item, prevNewsState[0], pan.x);
-                    // console.log('prev ',prevNewsState[0]);
-
                     return (
                         <Animated.View
                             key={idx}
@@ -147,7 +149,6 @@ const homeScreenNews = props => {
                                     <Text style={styles.dateText}>16h</Text>
                                 </View>
                                 <View style={styles.headLineContainer}>
-                                    {/* <Text style={styles.headLineText}>Unusual Options Activity Insight: General Electric</Text> */}
                                     <Text style={styles.headLineText}>{item}</Text>
 
                                 </View>
@@ -164,7 +165,6 @@ const homeScreenNews = props => {
             })}
             {news.map((item, idx) => {
                 if (idx === 1) {
-                    // console.log('animatable ', item)
                     return (
                         <Animatable.View ref={_viewRef} style={styles.animatableContainer} key={idx}>
                             <View style={styles.contentContainer}>

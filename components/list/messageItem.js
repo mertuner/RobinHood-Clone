@@ -54,14 +54,7 @@ const styles = StyleSheet.create({
         borderRadius: 50,
         alignItems: 'center',
         justifyContent: 'center',
-        // backgroundColor: '#000',
         marginRight: 14,
-        // shadowOpacity: 1,
-        // shadowRadius: 0,
-        // shadowOffset: {
-        //     height: 2,
-        //     width: 2
-        // },
     },
     contentContainer: {
         width: '100%',

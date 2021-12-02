@@ -5,12 +5,12 @@ import { ThemeContext } from '../../constants/theme';
 import * as Haptics from 'expo-haptics';
 
 
-const DateBar = React.memo(props => {
+const CyrptoDateBar = React.memo(props => {
 
-    const chartPeriods = ['1D', '1W', '1M', '3M', '1Y', 'ALL']
+    const chartPeriods = ['LIVE', '1D', '1W', '1M', '3M', '1Y', '5Y']
     
     
-    const [selectedPeriod, setSelectedPeriod] = useState('1D');
+    const [selectedPeriod, setSelectedPeriod] = useState('LIVE');
 
 
 
@@ -31,9 +31,10 @@ const DateBar = React.memo(props => {
     const chartViews = chartPeriods.map((el, i) => {
         return (
             <TouchableWithoutFeedback key={i} onPress={() => timePeriodsHandler(el)}>
-                <View style={{...styles.chartPeriod, paddingLeft: el === '1D' ? 0 : 12, paddingRight: el === 'ALL' ? 0 : 12}}>
-                    <View style={{backgroundColor: selectedPeriod === el ? props.color : '#fff', ...styles.chartPeriodInnerView }}>
-                    <Text style={{color: selectedPeriod === el ? '#fff' : props.color, ...styles.chartPeriodText } }>{el}</Text>
+                <View style={{...styles.chartPeriod, paddingLeft: el === 'LIVE' ? 0 : 8, paddingRight: el === '5Y' ? 0 : 8}}>
+                    {el === 'LIVE' ? <View style={{width: 6, height: 6, borderRadius: 50, backgroundColor: selectedPeriod === 'LIVE' ? props.color : '#a0a0a0'}}/> : null}
+                    <View style={styles.chartPeriodInnerView}>
+                    <Text style={{color: selectedPeriod === el ? props.color : '#fff', letterSpacing: el==='LIVE'? 4: 0, fontWeight: el==='LIVE'?'400': '700',  ...styles.chartPeriodText } }>{el}</Text>
                     </View>
                 </View>
             </TouchableWithoutFeedback>
@@ -53,6 +54,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        backgroundColor: 'transparent',
         width: '100%',
         marginTop: 12,
         marginBottom: 4,
@@ -61,12 +63,12 @@ const styles = StyleSheet.create({
     },
     chartPeriodText: {
         fontSize: 13,
-        fontWeight: '700'
     }, 
     chartPeriod: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'transparent',
     },
     chartPeriodInnerView: {
         paddingVertical: 3,
@@ -75,4 +77,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default DateBar;
+export default CyrptoDateBar;

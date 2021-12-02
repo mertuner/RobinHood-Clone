@@ -4,7 +4,7 @@ import DraggableFlatList from 'react-native-draggable-flatlist';
 import { LineChart } from 'react-native-svg-charts';
 import { deviceWidth } from '../../constants/dimensions';
 import * as Haptics from 'expo-haptics';
-import { stockData } from '../../data/dumb';
+import { stockData, cryptoData } from '../../data/dumb';
 
 
 
@@ -13,7 +13,7 @@ const listItem = props => {
 
     const maxTextLength = 11;
 
-    const cyrptoDownColor = '#FF5A87';
+    const cryptoDownColor = '#FF5A87';
     const cryptoUpColor = '#8FC83D';
     const stockUpColor = '#00c806';
     const stockDownColor = '#FF5000';
@@ -28,54 +28,57 @@ const listItem = props => {
         elevation: 5,
     }
 
-    // const [itemStyle, setItemStyle] = useState(initialItemStyle)
-
-
-    // const [activationDistance, setActivationDistance] = useState(100);
 
     const [data, setData] = useState(props.data);
 
 
     const onDragStart = () => {
-        // setItemStyle({
-        //     width: '100%',
-        //     marginLeft: 0
-        // });
         props.onDragStart();
     }
 
 
     const onDragEnd = ({data}) => {
         setData(data);
-        // setItemStyle(initialItemStyle);
         props.onDragEnd();
 
     }
 
 
-    const handleNavigation = (ticker) => {
+    const handleNavigation = (ticker, type) => {
         
-        let data = null;
+        let companyData = null;
+        let coinData = null;
 
         for(let company of stockData){
             if(company.ticker === ticker){
-                data = company;
+                companyData = company;
             }
         }
-
-        props.navigation.navigate('CompanyDetail', {
-            info: {
-                ...data
+        for(let crypto of cryptoData){
+            if(crypto.ticker === ticker){
+                coinData = crypto;
             }
-        })
+        }
+        if(type === 'crypto'){
+            props.navigation.navigate('CryptoDetail', {
+                info: {
+                    ...coinData
+                }
+            })
+        }
+        else {
+            props.navigation.navigate('CompanyDetail', {
+                info: {
+                    ...companyData
+                }
+            })
+        }
     }
 
 
-//#f2f4f9
-
 
     const renderItem = ({ item, index, drag, isActive }) => (
-        <TouchableHighlight onLongPress={drag} underlayColor={!isActive ? '#f2f4f9' : '#fff'} onPress={() => handleNavigation(item.ticker)} style={{width: deviceWidth}}>
+        <TouchableHighlight onLongPress={drag} underlayColor={!isActive ? '#f2f4f9' : '#fff'} onPress={() => handleNavigation(item.ticker, item.type)} style={{width: deviceWidth}}>
             <View style={isActive ? {...styles.itemContainer, ...activeItemStyle} : {...styles.itemContainer}}>
                 <View style={isActive ? {...styles.itemInnerContainer, width: '91%'}: {...styles.itemInnerContainer}}>
                     <View style={styles.nameContainer}>
@@ -86,12 +89,12 @@ const listItem = props => {
                         <LineChart
                             style={{ width: '100%', height: '100%', }}
                             data={item.intradayData}
-                            svg={{ stroke: (props.stock && item.up) ? stockUpColor : (props.stock) ? stockDownColor : item.up ? cryptoUpColor : cyrptoDownColor, strokeWidth: 1.3 }}
+                            svg={{ stroke: (props.stock && item.up) ? stockUpColor : (props.stock) ? stockDownColor : item.up ? cryptoUpColor : cryptoDownColor, strokeWidth: 1.3 }}
                             contentInset={{ top: 6, bottom: 6 }}
                             showGrid={false}
                         />
                     </View>
-                    <View style={{...styles.priceContainer, backgroundColor: (props.stock && item.up) ? stockUpColor : (props.stock) ? stockDownColor : item.up ? cryptoUpColor : cyrptoDownColor}}>
+                    <View style={{...styles.priceContainer, backgroundColor: (props.stock && item.up) ? stockUpColor : (props.stock) ? stockDownColor : item.up ? cryptoUpColor : cryptoDownColor}}>
                         <Text style={styles.priceText}>{'$' + item.price}</Text>
                     </View>
                 </View>
@@ -125,7 +128,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderBottomColor: 'rgba(237, 240, 244, 0.7)',
         borderBottomWidth: 0.5,
-        // backgroundColor: '#fff',
         width: '88%',
         marginLeft: '6%',
     },
@@ -148,7 +150,6 @@ const styles = StyleSheet.create({
         marginRight: 36
     },
     priceContainer: {
-        // width: '25%',
         paddingHorizontal: 16,
         paddingVertical: 8,
         borderRadius: 6,
@@ -170,5 +171,3 @@ const styles = StyleSheet.create({
 })
 
 
-//8EC83D -- crypto-up
-//FF5A87 -- ceypto-down

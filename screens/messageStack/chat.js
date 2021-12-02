@@ -1,9 +1,7 @@
-import React, {useState} from 'react'
-import { StyleSheet, Text, View, ScrollView } from 'react-native'
-import { deviceHeight, deviceWidth } from '../constants/dimensions';
-import MessageItem from '../components/list/messageItem';
-
-
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback } from 'react-native'
+import { deviceHeight, deviceWidth } from '../../constants/dimensions';
+import MessageItem from '../../components/list/messageItem';
 
 const ChatScreen = props => {
     const [showHeader, setShowHeader] = useState(false);
@@ -23,7 +21,7 @@ const ChatScreen = props => {
             message: `Duolingo Inc. (DUOL) has plans to go public. You can now find DUOL in the IPO Access list.`,
             isRead: false,
             date: '6d'
-            
+
         },
         {
             company: 'Disney',
@@ -91,6 +89,17 @@ const ChatScreen = props => {
     ]
 
 
+    const goToMessage = (company, ticker) => {
+        props.navigation.navigate('Message', {
+            info: {
+                company: company,
+                ticker: ticker
+            }
+        })
+    }
+
+
+
     const handleScroll = event => {
         if (!showHeader && event.nativeEvent.contentOffset.y > deviceHeight / 24) {
             setShowHeader(true)
@@ -116,7 +125,7 @@ const ChatScreen = props => {
         let g = num >> 8 & 255;
         let b = num & 255;
         return 'rgb(' + r + ', ' + g + ', ' + b + ')';
-      }
+    }
 
 
     return (
@@ -126,15 +135,18 @@ const ChatScreen = props => {
             </View>
             {chatData.map((item, idx) => {
                 return (
-                    <MessageItem 
-                        key={idx}
-                        isRead={item.isRead}
-                        company={item.company}
-                        ticker={item.ticker}
-                        message={item.message}
-                        shadowColor={getRandomRgb()}
-                        date={item.date}
-                    />
+                    <TouchableWithoutFeedback key={idx} onPress={() => goToMessage(item.company, item.ticker)}>
+                        <View>
+                            <MessageItem
+                                isRead={item.isRead}
+                                company={item.company}
+                                ticker={item.ticker}
+                                message={item.message}
+                                shadowColor={getRandomRgb()}
+                                date={item.date}
+                            />
+                        </View>
+                    </TouchableWithoutFeedback>
                 )
             })}
         </ScrollView>

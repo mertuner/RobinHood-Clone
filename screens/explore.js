@@ -245,6 +245,7 @@ const ExploreScreen = props => {
                             company={item.related}
                             content={item.headline}
                             color={'#00c806'}
+                            borderBottomColor={'rgba(237, 240, 244, 0.7)'}
                         />
                     )
                 })}
@@ -267,6 +268,7 @@ const ExploreScreen = props => {
                     return (
                         <NewsListItem
                             explore
+                            borderBottomColor={'rgba(237, 240, 244, 0.7)'}
                             key={idx}
                             source={item.source}
                             onPress={() => handleNewsItemPress(item.url)}

@@ -9,7 +9,7 @@ import HomeScreenNews from '../../components/homeScreenElements/homeScreenNews';
 import List from '../../components/list/list';
 import ListItem from '../../components/list/listItem';
 import FollowingContainer from '../../components/homeScreenElements/followingContainer';
-import { stockData, cyrptoData } from '../../data/dumb';
+import { stockData, cryptoData } from '../../data/dumb';
 import { accountData } from '../../data/account/dumb';
 
 
@@ -17,7 +17,7 @@ import { accountData } from '../../data/account/dumb';
 
 import { LogBox } from 'react-native';
 LogBox.ignoreLogs(["ReactNativeFiberHostComponent: Calling getNode() on the ref of an Animated component is no longer necessary. You can now directly use the ref instead. This method will be removed in a future release.",
-    "VirtualizedLists should never be nested inside plain ScrollViews with the same orientation - use another VirtualizedList-backed container instead."
+    "VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead."
 ]);
 
 
@@ -137,7 +137,6 @@ const HomeScreen = props => {
         props.navigation.navigate('BuyingPower');
     }
 
-    // console.log(scrollEnabled)
 
     return (
         <ScrollView ref={_scrollViewRef} scrollEnabled={scrollEnabled} contentContainerStyle={styles.container} scrollEventThrottle={16} onScroll={handleScroll}>
@@ -159,13 +158,13 @@ const HomeScreen = props => {
                         <Text style={styles.changeTimeText}>{periodData.title}</Text>
                     </View>
                 </View>
-                <View style={styles.ahChangeamountContainer}>
+                {periodData.title === 'Today' ? <View style={styles.ahChangeamountContainer}>
                     <Entypo name={'triangle-down'} size={24} color={'#FF5000'} />
                     <View style={styles.changeAmountTextContainer}>
                         <Text style={styles.ahChangeDollarAmountText}>$24.1800</Text>
                         <Text style={styles.changeTimeText}>After-Hours</Text>
                     </View>
-                </View>
+                </View>  : <View style={{width: '100%', height: 25}}/>}
                 <View style={styles.graphContainer}>
                     <LineChart
                         style={{ width: '100%', height: '100%', }}
@@ -194,10 +193,10 @@ const HomeScreen = props => {
                 <Text style={styles.listTitleText}>Lists</Text>
                 <List
                     emoji={"👾"}
-                    listAmount={cyrptoData.length}
+                    listAmount={cryptoData.length}
                     listName={'Cryptos to Watch'}
                 >
-                    <ListItem navigation={props.navigation} onDragStart={onDragStart} onDragEnd={onDragEnd} data={cyrptoData} parentRef={_scrollViewRef} />
+                    <ListItem navigation={props.navigation} onDragStart={onDragStart} onDragEnd={onDragEnd} data={cryptoData} parentRef={_scrollViewRef} />
                 </List>
                 <List
                     emoji={"⚡️"}

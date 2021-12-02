@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FontAwesome5, Ionicons, Feather } from '@expo/vector-icons';
@@ -6,11 +6,14 @@ import HomeScreen, { screenOptions as HomeScreenOptions } from '../screens/homeS
 import Promo, { screenOptions as PromoScreenOptions } from '../screens/homeStack/promo';
 import CashScreen from '../screens/cash';
 import ExploreScreen, { screenOptions as ExploreScreenOptions } from '../screens/explore';
-import ChatScreen, { screenOptions as ChatScreenOptions } from '../screens/chat';
+import ChatScreen, { screenOptions as ChatScreenOptions } from '../screens/messageStack/chat';
+import MessageScreen, { screenOptions as MessageScreenOptions } from '../screens/messageStack/message';
 import { deviceWidth } from '../constants/dimensions';
 import ProfileScreen, { screenOptions as ProfileScreenOptions } from '../screens/profile';
-import CompanyDetailScreen, { screenOptions as CompanyDetailScreenOptions} from '../screens/companyDetail';
-import BuyingPowerScreen, { screenOptions as BuyingPowerScreenOptions} from '../screens/buyingPower';
+import CompanyDetailScreen, { screenOptions as CompanyDetailScreenOptions } from '../screens/companyDetail';
+import CryptoDetailScreen, { screenOptions as CryptoDetailScreenOptions } from '../screens/cryptoDetailScreen';
+import BuyingPowerScreen, { screenOptions as BuyingPowerScreenOptions } from '../screens/buyingPower';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 
 
 const RootMainStackNavigator = createStackNavigator();
@@ -25,12 +28,7 @@ const BottomNavigator = createBottomTabNavigator();
 
 const HomeMainNavigator = () => {
     const defaultNavOptions = {
-        // headerTitleStyle: {
-        //     color: '#fff'
-        // },
-        // headerTransparent: true,
         headerStyle: {
-            backgroundColor: '#fff',
             shadowRadius: 0,
             shadowOffset: {
                 height: 0,
@@ -40,7 +38,6 @@ const HomeMainNavigator = () => {
             backgroundColor: '#fff'
         },
         // below code to hide title and give screen a full height
-        // headerShown: false
     }
 
     return (
@@ -49,6 +46,11 @@ const HomeMainNavigator = () => {
                 name="Home"
                 component={HomeScreen}
                 options={HomeScreenOptions}
+            />
+            <HomeStackMainNavigator.Screen
+                name="CryptoDetail"
+                component={CryptoDetailScreen}
+                options={CryptoDetailScreenOptions}
             />
             <HomeStackMainNavigator.Screen
                 name="CompanyDetail"
@@ -74,10 +76,11 @@ const CashNavigator = () => {
         cardStyle: {
             backgroundColor: '#fff'
         },
+        presentation: 'transparentModal'
     }
 
     return (
-        <CashStackNavigator.Navigator screenOptions={defaultNavOptions} mode={'modal'}>
+        <CashStackNavigator.Navigator screenOptions={defaultNavOptions}>
             <CashStackNavigator.Screen
                 name="Card"
                 component={CashScreen}
@@ -99,10 +102,12 @@ const ExploreNavigator = () => {
         cardStyle: {
             backgroundColor: '#fff'
         },
+        presentation: 'modal'
+
     }
 
     return (
-        <ExploreStackNavigator.Navigator screenOptions={defaultNavOptions} mode={'modal'}>
+        <ExploreStackNavigator.Navigator screenOptions={defaultNavOptions}>
             <ExploreStackNavigator.Screen
                 name="Explore"
                 component={ExploreScreen}
@@ -126,14 +131,21 @@ const ChatNavigator = () => {
         cardStyle: {
             backgroundColor: '#fff'
         },
+        presentation: 'card',
+        headerBackTitle: ''
     }
 
     return (
-        <ChatStackNavigator.Navigator screenOptions={defaultNavOptions} mode={'modal'}>
+        <ChatStackNavigator.Navigator screenOptions={defaultNavOptions}>
             <ChatStackNavigator.Screen
                 name="Chat"
                 component={ChatScreen}
                 options={ChatScreenOptions}
+            />
+            <ChatStackNavigator.Screen
+                name="Message"
+                component={MessageScreen}
+                options={MessageScreenOptions}
             />
         </ChatStackNavigator.Navigator>
     )
@@ -152,10 +164,11 @@ const ProfileNavigator = () => {
         cardStyle: {
             backgroundColor: '#fff'
         },
+        presentation: 'modal'
     }
 
     return (
-        <ProfileStackNavigator.Navigator screenOptions={defaultNavOptions} mode={'modal'}>
+        <ProfileStackNavigator.Navigator screenOptions={defaultNavOptions}>
             <ProfileStackNavigator.Screen
                 name="Profile"
                 component={ProfileScreen}
@@ -165,43 +178,50 @@ const ProfileNavigator = () => {
     )
 }
 
+const getRouteName = (route) => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    return routeName
+}
+
+
+
 
 const MainTabNavigator = () => {
     return (
         <BottomNavigator.Navigator screenOptions={({ route }) => ({
+            headerShown: false,
+            tabBarActiveTintColor: getFocusedRouteNameFromRoute(route) === 'CryptoDetail' ? '#fff' : '#212529',
+            tabBarInactiveTintColor: '#6c757d',
+            tabBarShowLabel: false,
+            tabBarStyle: {
+                paddingHorizontal: deviceWidth / 20,
+                borderTopColor: 'transparent',
+                backgroundColor: getFocusedRouteNameFromRoute(route) === 'CryptoDetail' ? '#100a20' : '#fff'
+            },
             tabBarIcon: ({ color }) => {
                 let iconName;
-                if (route.name === 'Home') {
+                if (route.name === 'Main') {
                     iconName = 'chart-area';
                 }
                 else if (route.name === 'Cash') {
                     iconName = 'wallet';
                 }
-                else if (route.name === 'Explore') {
+                else if (route.name === 'Search') {
                     iconName = 'search';
                 }
-                else if (route.name === 'Chat') {
+                else if (route.name === 'Messages') {
                     return <Ionicons name="ios-chatbox-ellipses-sharp" size={24} color={color} />
                 }
-                else if (route.name === 'Profile') {
+                else if (route.name === 'Settings') {
                     return <Feather name="user" size={24} color={color} />
                 }
                 // You can return any component that you like here!
                 return <FontAwesome5 name={iconName} size={24} color={color} />;
             },
         })}
-            tabBarOptions={{
-                activeTintColor: '#212529',
-                inactiveTintColor: '#6c757d',
-                showLabel: false,
-                style: {
-                    paddingHorizontal: deviceWidth / 20,
-                    borderTopColor: '#fff',
-                }
-            }}
         >
             <BottomNavigator.Screen
-                name="Home"
+                name="Main"
                 component={HomeMainNavigator}
             />
             <BottomNavigator.Screen
@@ -209,15 +229,15 @@ const MainTabNavigator = () => {
                 component={CashNavigator}
             />
             <BottomNavigator.Screen
-                name="Explore"
+                name="Search"
                 component={ExploreNavigator}
             />
             <BottomNavigator.Screen
-                name="Chat"
+                name="Messages"
                 component={ChatNavigator}
             />
             <BottomNavigator.Screen
-                name="Profile"
+                name="Settings"
                 component={ProfileNavigator}
             />
         </BottomNavigator.Navigator>
@@ -231,23 +251,17 @@ export const RootMainNavigator = () => {
         headerTitleStyle: {
             color: '#000',
         },
-        // headerStyle: {
-        //     shadowColor: 'white',
-        //     shadowRadius: 0,
-        //     shadowOffset: {
-        //         height: 0,
-        //     },
-        // }
         // below code to hide title and give screen a full height
         headerShown: false,
+        headerTransparent: false,
+        presentation: 'transparentModal',
     }
 
     return (
-        <RootMainStackNavigator.Navigator screenOptions={defaultNavOptions} mode={'modal'}>
+        <RootMainStackNavigator.Navigator screenOptions={defaultNavOptions}>
             <RootMainStackNavigator.Screen
                 name="Home"
                 component={MainTabNavigator}
-                // options={{ headerShown: false }}
             />
             <RootMainStackNavigator.Screen
                 name="Promo"

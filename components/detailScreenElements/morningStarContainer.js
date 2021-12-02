@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     title: {
-        // fontSize: 16,
         fontWeight: '700'
     },
     morningStar: {

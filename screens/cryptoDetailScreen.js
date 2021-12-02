@@ -1,29 +1,25 @@
 import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableWithoutFeedback, StatusBar } from 'react-native';
 import { deviceWidth, deviceHeight } from '../constants/dimensions';
 import { Feather, Entypo, Ionicons } from '@expo/vector-icons';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 import CustomHeaderButton from '../components/UI/headerButton/headerButton';
 import { LineChart } from 'react-native-svg-charts';
-import DateBar from '../components/dateBar/dateBar';
-import StatsContainer from '../components/detailScreenElements/statsContainer';
+import CryptoDateBar from '../components/dateBar/cryptoDateBar';
 import NewsListItem from '../components/list/newsListItem';
 import * as WebBrowser from 'expo-web-browser';
-import RatingContainer from '../components/detailScreenElements/ratingContainer';
-import MorningStarContainer from '../components/detailScreenElements/morningStarContainer';
-import RelatedListContainer from '../components/detailScreenElements/relatedListContainer';
-import AlsoOwnContainer from '../components/detailScreenElements/alsoOwnContainer';
-import AboutContainer from '../components/detailScreenElements/aboutContainer';
-
-const companyDetailScreen = props => {
+import * as shape from 'd3-shape';
+import Collapsible from 'react-native-collapsible';
 
 
-    const stockUpColor = '#00c806';
-    const stockDownColor = '#FF5000';
-    const stockUpBgColor = '#E5F8E3';
-    const stockDownBgColor = '#FBEBE2';
 
-    const [details, setDetails] = useState({...props.route.params.info });
+const cryptoDetailScreen = props => {
+
+    const cryptoDownColor = '#FF5A87';
+    const cryptoUpColor = '#CDF460';
+
+    const [details, setDetails] = useState({ ...props.route.params.info });
+
 
 
     const [periodData, setPeriodData] = useState();
@@ -33,16 +29,31 @@ const companyDetailScreen = props => {
     const [graphData, setGraphData] = useState([]);
 
 
-    const newsChange = details.up ? '+1.54' : '-1.54'
+    const newsChange = details.up ? '+1.54' : '-1.54';
+
+    const [isCollapsed, setIsCollapsed] = useState(true);
+
+    const handleCollapsing = () => {
+        setIsCollapsed(!isCollapsed);
+    }
 
 
     const setChartData = period => {
         switch (period) {
+            case 'LIVE':
+                setGraphData(details.intradayData);
+                setPeriodData({
+                    title: 'Past Hour',
+                    change: '1.84 (1.54%)',
+                    ahTitle: 'After-Hours',
+                    ahChange: '$0.2600 (0.18%)'
+                });
+                break;
             case '1D':
                 setGraphData(details.intradayData);
                 setPeriodData({
                     title: 'Today',
-                    change:  '1.84 (1.54%)',
+                    change: '1.84 (1.54%)',
                     ahTitle: 'After-Hours',
                     ahChange: '$0.2600 (0.18%)'
                 });
@@ -90,7 +101,7 @@ const companyDetailScreen = props => {
 
     useEffect(() => {
         props.navigation.setOptions({
-            headerBackImage: () => <Entypo style={{marginLeft: deviceWidth * 0.03}} name={'chevron-thin-left'} size={22} color={details.up ? stockUpColor : stockDownColor}/>,
+            headerBackImage: () => <Entypo style={{ marginLeft: deviceWidth * 0.03 }} name={'chevron-thin-left'} size={22} color={details.up ? cryptoUpColor : cryptoDownColor} />,
             headerRight: () => (
                 <View style={{ flexDirection: 'row', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
@@ -98,8 +109,8 @@ const companyDetailScreen = props => {
                             iconSet={Feather}
                             iconName={'share'}
                             iconSize={24}
-                            onPress={() => {}}
-                            color={details.up ? stockUpColor : stockDownColor}
+                            onPress={() => { }}
+                            color={details.up ? cryptoUpColor : cryptoDownColor}
                         />
                     </HeaderButtons>
                     <HeaderButtons HeaderButtonComponent={CustomHeaderButton}>
@@ -107,12 +118,12 @@ const companyDetailScreen = props => {
                             iconSet={Ionicons}
                             iconSize={24}
                             iconName={'checkmark-circle'}
-                            onPress={() => {}}
-                            color={details.up ? stockUpColor : stockDownColor}
+                            onPress={() => { }}
+                            color={details.up ? cryptoUpColor : cryptoDownColor}
                         />
                     </HeaderButtons>
                 </View>
-            ),
+            )
         })
         setPeriodData({
             title: 'Today',
@@ -129,6 +140,10 @@ const companyDetailScreen = props => {
 
 
 
+
+
+
+
     const handleScroll = event => {
         if (!showHeader && event.nativeEvent.contentOffset.y > deviceHeight / 24) {
             setShowHeader(true)
@@ -136,7 +151,7 @@ const companyDetailScreen = props => {
                 headerTitle: props => {
                     return (
                         <View style={styles.headerTitleContainer}>
-                            <Text style={{ marginBottom: 4 }}>{details.price}</Text>
+                            <Text style={{ marginBottom: 4, color: '#fff' }}>{details.price}</Text>
                             <Text style={{ color: '#97a4b2', fontSize: 12 }}>{details.ticker}</Text>
                         </View>
                     )
@@ -158,51 +173,62 @@ const companyDetailScreen = props => {
 
     return (
         <View style={styles.container}>
+            <StatusBar barStyle="light-content" />
             <ScrollView contentContainerStyle={styles.scrollViewContainer} onScroll={handleScroll} scrollEventThrottle={16}>
                 <View style={styles.topContainer}>
                     <Text style={styles.ticker}>{details?.ticker}</Text>
                     <Text style={styles.name}>{details?.name}</Text>
                     <View style={styles.priceContainer}>
                         <Text style={styles.price}>${details?.price}</Text>
-                        <Feather name={'arrow-right-circle'} size={22} style={{ marginTop: 4 }} />
+                        {/* <Feather name={'arrow-right-circle'} size={22} style={{ marginTop: 4 }} /> */}
                     </View>
                     <View>
                         <View style={styles.changeamountContainer}>
-                            <Entypo name={details.up ? 'triangle-up' : 'triangle-down'} size={24} color={details.up ? stockUpColor : stockDownColor} />
                             <View style={styles.changeAmountTextContainer}>
-                                <Text style={{...styles.changeDollarAmountText, color: details.up ? stockUpColor : stockDownColor}}>${periodData?.change}</Text>
+                                <Text style={{ ...styles.changeDollarAmountText, color: details.up ? cryptoUpColor : cryptoDownColor }}>${periodData?.change}</Text>
                                 <Text style={styles.changeTimeText}>{periodData?.title}</Text>
                             </View>
                         </View>
-                        {periodData?.title === 'Today' ? <View style={styles.ahChangeamountContainer}>
-                            <Entypo name={'triangle-up'} size={24} color={stockUpColor} />
-                            <View style={styles.changeAmountTextContainer}>
-                                <Text style={{...styles.ahChangeDollarAmountText, color:stockUpColor}}>${periodData?.ahChange}</Text>
-                                <Text style={styles.changeTimeText}>{periodData?.ahTitle}</Text>
-                            </View>
-                        </View>  : <View style={{width: '100%', height: 25}}/>}
                     </View>
                 </View>
                 <View style={styles.graphContainer}>
                     <LineChart
                         style={{ width: '100%', height: '100%', }}
                         data={graphData ? graphData : []}
-                        svg={{ stroke: details.up ? stockUpColor : stockDownColor, strokeWidth: 1.7 }}
-                        contentInset={{ top: 0, bottom: 0 }}
+                        svg={{ stroke: details.up ? cryptoUpColor : cryptoDownColor, strokeWidth: 1.7 }}
+                        contentInset={{ top: 12, bottom: 12 }}
                         showGrid={false}
-                    />
+                    >
+                        <LineChart
+                            style={{ width: '100%', height: '100%', }}
+                            data={graphData ? graphData : []}
+                            svg={{ stroke: details.up ? `rgba(205, 244, 96, 0.35)` : `rgba(255, 90, 135, 0.35)`, strokeWidth: 6 }}
+                            contentInset={{ top: 12, bottom: 12 }}
+                            curve={shape.curveNatural}
+                            showGrid={false}
+                        />
+                    </LineChart>
                 </View>
                 <View style={styles.dateBarContainer}>
-                    <DateBar setChartData={setChartData} color={details.up ? stockUpColor : stockDownColor} />
+                    <CryptoDateBar setChartData={setChartData} color={details.up ? cryptoUpColor : cryptoDownColor} />
                 </View>
-                <StatsContainer />
+                <View style={styles.aboutContainer}>
+                    <Text style={styles.title}>About</Text>
+                    {isCollapsed ? <Text style={styles.content} numberOfLines={3}>{details.about.description}</Text> : null}
+                    <Collapsible collapsed={isCollapsed}>
+                        <Text style={styles.content}>{details.about.description}</Text>
+                    </Collapsible>
+                    <TouchableWithoutFeedback onPress={handleCollapsing}>
+                        <Text style={{ ...styles.showMore, color: details.up ? cryptoUpColor : cryptoDownColor }}>{isCollapsed ? 'Show More' : 'Show Less'}</Text>
+                    </TouchableWithoutFeedback>
+                </View>
                 <View style={styles.newsContainer}>
                 <Text style={styles.newsTitle}>News</Text>
                 {details.news ? details.news.map((item, idx) => {
                     return (
                         <NewsListItem
+                        textColor={'#fff'}
                         key={idx}
-                        borderBottomColor={'rgba(237, 240, 244, 0.7)'}
                         onPress={() => handleNewsItemPress(item.url)}
                         source={item.source}
                         date={item.datetime}
@@ -210,65 +236,41 @@ const companyDetailScreen = props => {
                         percentage={newsChange}
                         company={item.related}
                         content={item.headline}
-                        color={details.up ? stockUpColor : stockDownColor}
+                        color={details.up ? cryptoUpColor : cryptoDownColor}
+                        borderBottomColor={'rgba(237, 240, 244, 0.1)'}
 
                     />
                     )
                 }) : null}
                 </View> 
-                {details.analystRatings ? <RatingContainer  
-                buy={details.analystRatings?.buy} 
-                sell={details.analystRatings?.sell} 
-                hold={details.analystRatings?.hold}
-                number={details.analystRatings?.number}  
-                color={details.up ? stockUpColor : stockDownColor} 
-                bgColor={details.up ? stockUpBgColor : stockDownBgColor}/> : null}
-                {details.analystRatings?.bullsSay ? <MorningStarContainer 
-                    bullsSay={details.analystRatings.bullsSay}
-                    bearsSay={details.analystRatings.bearsSay}
-                    color={details.up ? stockUpColor : stockDownColor}
-                /> : null}
-                <RelatedListContainer/>
-                <AlsoOwnContainer />
-                <AboutContainer 
-                    color={details.up ? stockUpColor : stockDownColor}
-                    company={details.name}
-                    about={details.about.description}
-                    ceo={details.about.ceo}
-                    headquarters={details.about.headquarters}
-                    founded={details.about.founded}
-                    employees={details.about.employees}
-                />
-                <View style={styles.disclosureContainer}>
-                    <Text style={styles.disclosureContent}>
-                    All investments involve risks, including the loss of principal. Securities trading offered through Robinhood Financial LLC, a registered broker-dealer and Member SIPC.
-                    <Text style={{...styles.disclosureBtn, color: details.up ? stockUpColor :stockDownColor}}>Full disclosure</Text>
-                    </Text>
-                </View>
             </ScrollView>
             <View style={styles.footer}>
-                <View style={styles.footerInnerContainer}>
-                        <View style={styles.footerTextContainer}>
-                            <Text style={styles.volumeTitleText}>Today's Volume</Text>
-                            <Text style={styles.volumeText}>64,765,398</Text>
-                        </View>
-                        <TouchableWithoutFeedback>
-                    <View style={{ ...styles.button, backgroundColor: details.up ? stockUpColor : stockDownColor }}>
-                        <Text style={{ color: '#fff', fontWeight: '700', fontSize: 15 }}>Trade</Text>
+                <TouchableWithoutFeedback>
+                    <View style={{ ...styles.button, backgroundColor: details?.up ? cryptoUpColor : cryptoDownColor }}>
+                        <Text style={{ color: '#000', fontWeight: '700', fontSize: 15 }}>Buy</Text>
                     </View>
                 </TouchableWithoutFeedback>
-                </View>
             </View>
         </View>
     )
 }
 
-export default companyDetailScreen;
+export default cryptoDetailScreen;
 
 export const screenOptions = navData => {
     return {
         title: navData.route.params?.title ? navData.route.params.title : '',
         headerBackTitleVisible: false,
+        headerLeftContainerStyle: {
+            marginLeft: deviceWidth * 0.05,
+        },
+        headerStyle: {
+            backgroundColor: '#100a20',
+            shadowRadius: 0,
+            shadowOffset: {
+                height: 0,
+            },
+        }
     }
 }
 
@@ -278,6 +280,7 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'flex-start',
         flex: 1,
+        backgroundColor: '#100a20'
     },
     scrollViewContainer: {
         width: deviceWidth,
@@ -295,7 +298,7 @@ const styles = StyleSheet.create({
     graphContainer: {
         width: deviceWidth,
         alignItems: 'center',
-        height: 225,
+        height: deviceHeight / 2.85,
         marginTop: 64,
         marginBottom: 24
     },
@@ -308,7 +311,7 @@ const styles = StyleSheet.create({
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
-        marginTop: 18,
+        marginTop: 8,
     },
     dateBarContainer: {
         width: '88%',
@@ -328,7 +331,6 @@ const styles = StyleSheet.create({
     changeDollarAmountText: {
         fontSize: 13,
         fontWeight: '600',
-
     },
     ahChangeDollarAmountText: {
         fontSize: 13,
@@ -336,24 +338,29 @@ const styles = StyleSheet.create({
     },
     changeTimeText: {
         fontSize: 13,
-        marginLeft: 4
+        marginLeft: 4,
+        color: '#fff'
     },
     ticker: {
         fontSize: 13,
         fontWeight: '600',
         marginTop: 16,
-        marginBottom: 12
+        marginBottom: 12,
+        color: '#fff'
     },
     name: {
         fontSize: 32,
         fontWeight: '500',
+        color: '#fff'
     },
     price: {
         fontSize: 32,
         fontWeight: '500',
         marginTop: 2,
         textAlign: 'left',
-        marginRight: 8
+        marginRight: 8,
+        color: '#fff'
+
     },
     newsContainer: {
         marginTop: 40,
@@ -389,7 +396,7 @@ const styles = StyleSheet.create({
     },
     volumeText: {
         fontSize: 15,
-    },   
+    },
     button: {
         width: '48%',
         justifyContent: 'center',
@@ -412,5 +419,52 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: '600',
         marginTop: 12
-    }
+    },
+    footer: {
+        width: deviceWidth,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        paddingBottom: 20
+    },
+    button: {
+        width: '90%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 14,
+        marginTop: 16,
+        borderRadius: 50
+    },
+    title: {
+        fontSize: 24,
+        marginBottom: 24,
+        fontWeight: '500',
+        marginTop: 32,
+        color: '#fff'
+    },
+    content: {
+        textAlign: 'left',
+        lineHeight: 24,
+        fontSize: 15,
+        color: '#fff'
+    },
+    showMore: {
+        fontSize: 13,
+        fontWeight: '600',
+        marginTop: 12
+    },
+    aboutContainer: {
+        width: '88%',
+        marginLeft: '6%',
+    },
+    newsContainer: {
+        marginTop: 40,
+        width: '88%',
+        marginLeft: '6%'
+    },
+    newsTitle: {
+        fontSize: 24,
+        marginBottom: 16,
+        fontWeight: '500',
+        color: '#fff'
+    },
 })

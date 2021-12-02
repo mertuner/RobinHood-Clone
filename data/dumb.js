@@ -24,20 +24,106 @@ const getChartDataPoints = (data) => {
 
 
 
-export const cyrptoData = [
+export const cryptoData = [
     {
-        ticker: 'btc',
+        ticker: 'BTC',
+        type: 'crypto',
         name: 'Bitcoin',
         intradayData: getChartDataPoints(bitcoinIntraday),
         price: '34,350.10',
-        up: false
+        up: false,
+        news: [
+            {
+                datetime: "1h",
+                headline: "US investors made over $4 billion trading Bitcoin last year",
+                source: "CryptoSlate",
+                url: "https://cloud.iexapis.com/v1/news/article/rsrdjU1TX3hoTEf5CSfyJpILUszcX8RigvdTBYyxq0G",
+                summary: "Wall Street Journal carry the news that meat supplier JBS paid a cyber ransom. Andre Nogueira, chief executive of Brazilian meat company JBS SA''s U.S. division comment: By Eamonn Sheridan.",
+                related: "BTC",
+                image: "https://cloud.iexapis.com/v1/news/image/rsrdjU1TX3hoTEf5CSfyJpILUszcX8RigvdTBYyxq0G",
+                lang: "en",
+                hasPaywall: false
+            },
+            {
+                datetime: "4h",
+                headline: "World''s Largest Meat Company Pays $11M in Bitcoin Ransomware Attack - CoinDesk",
+                source: "CoinDesk",
+                url: "https://cloud.iexapis.com/v1/news/article/3GP3i8PwT1gRuw5Y7A39DP5HdSRUk9YqYH08WewG2F9v",
+                summary: "The world''s largest meat producer was brought to its knees on May 30 and was forced to pay $11 million in bitcoin to restore services.",
+                related: "BTC",
+                image: "https://cloud.iexapis.com/v1/news/image/3GP3i8PwT1gRuw5Y7A39DP5HdSRUk9YqYH08WewG2F9v",
+                lang: "en",
+                hasPaywall: false
+            },
+            {
+                datetime: "1d",
+                headline: "Warren Buffetts Berkshire Hathaway Invests in Bitcoin-Friendly Digital Bank",
+                source: "CoinDesk",
+                url: "https://cloud.iexapis.com/v1/news/article/3GP3i8PwT1gRuw5Y7A39DP5HdSRUk9YqYH08WewG2F9v",
+                summary: "Berkshire Hathaway, the company led by CEO Warren Buffett, has invested $500 million in a pro-bitcoin digital bank. Nubank says it will offer bitcoin investment following its acquisition of brokerage firm Easynvest which offers the trading of Brazils first bitcoin exchange-traded fund (ETF). Berkshire Hathaway Invests in Pro-Bitcoin Digital Bank Warren Buffetts Berkshire Hathaway Inc.",
+                related: "BTC",
+                image: "https://cloud.iexapis.com/v1/news/image/3jHA0G2eTosTX3oYMAQ6BiFUWLUSzd8Hj0dUE8tLAEm8",
+                lang: "en",
+                hasPaywall: false
+            }
+        ],
+        about: {
+            description: 
+oneLine`Bitcoin (BTC) was founded in 2008 by a pseudonymous person or group calling themselves Satoshi 
+Nakamoto. Bitcoin is a digital currency that doesn't rely on intermediaries or governments to facilitate 
+peer-to-peer transactions. The maximum amount of bitcoin that can ever exist is 21 million. Bitcoin is 
+divisible to eight decimal places. A subdivided unit of bitcoin is called a satoshi.`
+        }
     },
     {
-        ticker: 'doge',
+        ticker: 'DOGE',
+        type: 'crypto',
         name: 'Dogecoin',
         intradayData: getChartDataPoints(dogeIntraday),
         price: '0.234636',
-        up: true
+        up: true,
+        news: [
+            {
+                datetime: "1h",
+                headline: "Shiba Inu Coin Faces ‘Reversion’ Worthy of Parabolic Rise, Analyst Says",
+                source: "CoinDesk",
+                url: "https://www.coindesk.com/markets/2021/11/17/shiba-inu-coin-faces-reversion-worthy-of-parabolic-rise/",
+                summary: "Bloomberg’s Mike McGlone sees SHIB token frenzy as a sign of “excess” in cryptocurrency markets and predicts a “reversion worthy of its parabolic rise.",
+                related: "DOGE",
+                image: "https://cloudfront-us-east-1.images.arcpublishing.com/coindesk/AOVX2W4AZJAU7ONAOWCL2LG5OI.jpg",
+                lang: "en",
+                hasPaywall: false
+            },
+            {
+                datetime: "4h",
+                headline: "The Bias That Propels Shiba Inu and Dogecoin",
+                source: "CoinDesk",
+                url: "https://www.coindesk.com/markets/2021/10/31/the-bias-that-propels-shiba-inu-and-dogecoin/",
+                summary: "Bitcoin may be the alpha dog of crypto, but for many small retail investors these days, dogecoin and shiba inu are the pick of the litter.",
+                related: "DOGE",
+                image: "https://cloudfront-us-east-1.images.arcpublishing.com/coindesk/CL26YGIGIBCVNOCQ4E2QRKRMVM.jpg",
+                lang: "en",
+                hasPaywall: false
+            },
+            {
+                datetime: "1d",
+                headline: "Meme Tokens Led ‘Uptober’ as SHIB Mooned 765%",
+                source: "CoinDesk",
+                url: "https://www.coindesk.com/markets/2021/11/01/meme-tokens-led-uptober-as-shib-mooned-765/",
+                summary: "Popular meme tokens saw large gains in October as cryptocurrency market sentiment improved. Both SHIB and DOGE posted record highs and are now among the top 10 largest digital assets by market valuation, according to CoinMarketCap.",
+                related: "DOGE",
+                image: "https://cloudfront-us-east-1.images.arcpublishing.com/coindesk/6DVUOXDDEZGQFJETUYVSXUDNC4.jpg",
+                lang: "en",
+                hasPaywall: false
+            }
+        ],
+        about: {
+            description: 
+oneLine`Dogecoin (DOGE) was founded by software engineers Billy Markus and Jackson Palmer, 
+and was launched in 2013. Dogecoin was created to make digital currency more fun, friendly, 
+and approachable. Similar to bitcoin, dogecoin is a digital currency that can be used for 
+peer-to-peer transactions. There is currently no hard cap on the total supply of DOGE`
+        }
     }
 ]
 
@@ -46,6 +132,7 @@ export const stockData = [
     {
         ticker: 'SPY',
         name: 'SPDR S&P 500 ETF',
+        type: 'stock',
         intradayData: getChartDataPoints(spyIntraday),
         price: '438.72',
         up: true,
@@ -100,6 +187,7 @@ oneLine`SPY tracks a market-cap-weighted index of US large- and midcap stocks se
     {
         ticker: 'AAPL',
         name: 'Apple',
+        type: 'stock',
         intradayData: getChartDataPoints(appleIntraday),
         price: '148.65',
         up: true,
@@ -217,6 +305,7 @@ Cupertino, CA. The listed name for AAPL is Apple Inc. Common Stock.`,
     {
         ticker: 'NVDA',
         name: 'NVIDIA',
+        type: 'stock',
         intradayData: getChartDataPoints(nvidiaIntraday),
         price: '191.10',
         up: true,
@@ -323,6 +412,7 @@ The listed name for NVDA is NVIDIA Corporation Common Stock.`,
     {
         ticker: 'UBER',
         name: 'Uber',
+        type: 'stock',
         intradayData: getChartDataPoints(uberIntraday),
         price: '46.75',
         up: false,
@@ -420,6 +510,7 @@ Uber Technologies, Inc.`,
     {
         ticker: 'GME',
         name: 'GameStop',
+        type: 'stock',
         intradayData: getChartDataPoints(gameStopIntraday),
         price: '183.77',
         up: false,
@@ -510,6 +601,7 @@ GME is GameStop Corp. Class A.`,
     {
         ticker: 'TSLA',
         name: 'Tesla',
+        type: 'stock',
         intradayData: getChartDataPoints(teslaIntraday),
         price: '673.25',
         up: true,
